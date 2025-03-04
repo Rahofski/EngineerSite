@@ -27,12 +27,12 @@ func LoadConfig(path string) (*Config, error) {
 	viper.SetConfigFile(path)
 
 	if err := viper.ReadInConfig(); err != nil {
-		return nil, fmt.Errorf("Unable to read config file: %w", err)
+		return nil, fmt.Errorf("unable to read config file: %w", err)
 	}
 
 	var cfg Config
 	if err := viper.Unmarshal(&cfg); err != nil {
-		return nil, fmt.Errorf("Unable to marshall config: %w", err)
+		return nil, fmt.Errorf("unable to marshall config: %w", err)
 	}
 
 	return &cfg, nil

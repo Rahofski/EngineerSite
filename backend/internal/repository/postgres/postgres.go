@@ -4,6 +4,8 @@ import (
 	"backend/internal/config"
 	"database/sql"
 	"fmt"
+
+	_ "github.com/lib/pq"
 )
 
 func NewPostgresDB(cfg config.Config) (*sql.DB, error) {
@@ -15,11 +17,11 @@ func NewPostgresDB(cfg config.Config) (*sql.DB, error) {
 
 	db, err := sql.Open("postgres", connStr)
 	if err != nil {
-		return nil, fmt.Errorf("Unalble to open database connection: %w", err)
+		return nil, fmt.Errorf("unalble to open database connection: %w", err)
 	}
 
 	if err = db.Ping(); err != nil {
-		return nil, fmt.Errorf("Unable to ping database^ %w", err)
+		return nil, fmt.Errorf("unable to ping database^ %w", err)
 	}
 
 	return db, nil
