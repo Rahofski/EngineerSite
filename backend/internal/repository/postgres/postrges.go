@@ -1,25 +1,16 @@
 package postgres
 
 import (
+	"backend/internal/config"
 	"database/sql"
 	"fmt"
-	//_ "github.com/lib/pq"
 )
 
-type Config struct {
-	Host     string
-	Port     string
-	Username string
-	Password string
-	DBName   string
-	SSLMode  string
-}
-
-func NewPostgresDB(cfg Config) (*sql.DB, error) {
+func NewPostgresDB(cfg config.Config) (*sql.DB, error) {
 
 	connStr := fmt.Sprintf(
 		"host=%s port=%s user=%s password=%s dbname=%s sslmode=%s",
-		cfg.Host, cfg.Port, cfg.Username, cfg.Password, cfg.DBName, cfg.SSLMode,
+		cfg.Database.Host, cfg.Database.Port, cfg.Database.User, cfg.Database.Password, cfg.Database.DBName, cfg.Database.SSLMode,
 	)
 
 	db, err := sql.Open("postgres", connStr)
