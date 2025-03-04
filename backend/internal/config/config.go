@@ -25,7 +25,6 @@ type Config struct {
 func LoadConfig(path string) (*Config, error) {
 
 	viper.SetConfigFile(path)
-	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, fmt.Errorf("Unable to read config file: %w", err)
