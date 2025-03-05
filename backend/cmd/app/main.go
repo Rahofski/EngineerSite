@@ -2,12 +2,12 @@ package main
 
 import (
 	"backend/internal/config"
+	"backend/internal/pkg/utils"
 	"backend/internal/repository/postgres"
 	"log"
 )
 
 func main() {
-
 	cfg, err := config.LoadConfig("./config.yaml")
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
@@ -19,4 +19,8 @@ func main() {
 	}
 	defer db.Close()
 
+	err = utils.PrintDB(db)
+	if err != nil {
+		log.Panic("Failed to print database structure: %w", err)
+	}
 }
