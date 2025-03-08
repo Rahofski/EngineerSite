@@ -18,7 +18,13 @@ func (r *UserRepository) GetByUsername(username string) (*models.User, error) {
 
 	var user models.User
 	query := "SELECT user_id, username, password_hash, email, role FROM users WHERE username = $1"
-	err := r.db.QueryRow(query, username).Scan(&user.UserID, &user.Username, &user.PasswordHash, &user.Email, &user.Role)
+	err := r.db.QueryRow(query, username).Scan(
+		&user.UserID,
+		&user.Username,
+		&user.PasswordHash,
+		&user.Email,
+		&user.Role,
+	)
 
 	if err != nil {
 		if err == sql.ErrNoRows {

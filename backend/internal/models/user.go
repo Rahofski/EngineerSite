@@ -8,7 +8,17 @@ type User struct {
 	Role         string `json:"role"`
 }
 
-type UserLogInResponce struct {
+type LoginRequest struct {
+	Username string `json:"username" validate:"required"`
+	Password string `json:"password" validate:"required,min=8"`
+}
+
+type LoginResponce struct {
+	AccessToken string       `json:"access_token"`
+	User        UserResponce `json:"user"`
+}
+
+type UserResponce struct {
 	UserID   int    `json:"user_id"`
 	Username string `json:"username"`
 	Role     string `json:"role"`
