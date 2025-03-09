@@ -1,4 +1,4 @@
-package api_service
+package service
 
 import (
 	"backend/internal/models"
@@ -22,11 +22,11 @@ func NewAuthService(userRepo *repository.UserRepository, secret string) *AuthSer
 	}
 }
 
-func (auth *AuthService) Login(username, password string) (*models.LoginResponce, error) {
+func (s *AuthService) Login(username, password string) (*models.LoginResponce, error) {
 
 	// get user by usesrname
 
-	user, err := auth.UserRepo.GetByUsername(username)
+	user, err := s.UserRepo.GetByUsername(username)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find user: %w", err)
 	}
@@ -43,7 +43,7 @@ func (auth *AuthService) Login(username, password string) (*models.LoginResponce
 
 	// generate token
 
-	token, err := auth.generateToken(user)
+	token, err := s.generateToken(user)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate token: %w", err)
 	}

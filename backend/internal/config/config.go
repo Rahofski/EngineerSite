@@ -22,6 +22,8 @@ type Config struct {
 		DBName   string `mapstructure:"dbname" validate:"required"`
 		SSLMode  string `mapstructure:"sslmode" validate:"required"`
 	} `mapstructure:"database"`
+
+	Secret string `mapstructure:"secret" validate:"required"`
 }
 
 func LoadConfig(path string) (*Config, error) {

@@ -8,3 +8,4 @@ database:
   password: "flyHlsuwIZatxbNXnXluezPVWhPUpPgZ"
   dbname: "railway"
   sslmode: "disable"
+secret: "KABAN"
