@@ -28,6 +28,14 @@ type UserResponce struct {
 	Role     string `json:"role"`
 }
 
+func (u *User) ToResponce() *UserResponce {
+	return &UserResponce{
+		UserID:   u.UserID,
+		Username: u.Username,
+		Role:     u.Role,
+	}
+}
+
 func (u *User) CheckPassword(password string) error {
 	return bcrypt.CompareHashAndPassword([]byte(u.PasswordHash), []byte(password))
 }

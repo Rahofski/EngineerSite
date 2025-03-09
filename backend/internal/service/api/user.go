@@ -4,6 +4,9 @@ import (
 	"backend/internal/models"
 	"backend/internal/repository"
 	"fmt"
+	"time"
+
+	"github.com/golang-jwt/jwt/v5"
 )
 
 type AuthService struct {
@@ -21,7 +24,7 @@ func NewAuthService(userRepo *repository.UserRepository, secret string) *AuthSer
 
 func (auth *AuthService) Login(username, password string) (*models.LoginResponce, error) {
 
-	// TODO: get user by usesrname
+	// get user by usesrname
 
 	user, err := auth.UserRepo.GetByUsername(username)
 	if err != nil {
@@ -31,20 +34,36 @@ func (auth *AuthService) Login(username, password string) (*models.LoginResponce
 		return nil, fmt.Errorf("invalid username or password")
 	}
 
-	// TODO: chek password
+	// chek password
 
 	err = user.CheckPassword(password)
 	if err != nil {
 		return nil, fmt.Errorf("invalid password")
 	}
 
-	// TODO: generate token
+	// generate token
 
-	// TODO: do responce
+	token, err := auth.generateToken(user)
+	if err != nil {
+		return nil, fmt.Errorf("failed to generate token: %w", err)
+	}
 
-	return nil, nil
+	// do responce
+
+	return &models.LoginResponce{
+		AccessToken: token,
+		User:        *user.ToResponce(),
+	}, nil
 }
 
-func generateToken(user *models.User) (string, error) {
-	return "", nil
+func (s *AuthService) generateToken(user *models.User) (string, error) {
+
+	claims := jwt.MapClaims{
+		"user_id":  user.UserID,
+		"username": user.Username,
+		"exp":      time.Now().Add(time.Hour * 24).Unix(),
+	}
+
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString([]byte(s.secret))
 }
