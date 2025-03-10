@@ -10,8 +10,9 @@ import (
 
 type Config struct {
 	Server struct {
-		Host string `mapstructure:"host" validate:"required"`
-		Port string `mapstructure:"port" validate:"required"`
+		Host   string `mapstructure:"host" validate:"required"`
+		Port   string `mapstructure:"port" validate:"required"`
+		Adress string
 	} `mapstructure:"server"`
 
 	Database struct {
@@ -29,6 +30,7 @@ type Config struct {
 func LoadConfig(path string) (*Config, error) {
 
 	viper.SetConfigFile(path)
+	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
 		return nil, fmt.Errorf("unable to read config file: %w", err)
@@ -43,6 +45,8 @@ func LoadConfig(path string) (*Config, error) {
 	if err := val.Struct(cfg); err != nil {
 		return nil, fmt.Errorf("config validation failed: %w", err)
 	}
+
+	cfg.Server.Adress = fmt.Sprintf("%s:%s", cfg.Server.Host, cfg.Server.Port)
 
 	return &cfg, nil
 }
