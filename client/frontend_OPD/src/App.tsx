@@ -1,5 +1,7 @@
 import { CardWithForm } from "./components/card";
 import { RequestList } from "./components/RequestList";
+import { AdminPage } from "./components/AdminPage";
+
 import { Provider } from "./components/ui/provider"
 import { ThemeToggleButton } from "./components/ThemeToggleButton";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -17,8 +19,9 @@ function App() {
                   <CardWithForm />
               </>
             } />
-            {/* Страница заявки */}
+            {/* Страница заявки */} 
             <Route path="/request" element={<RequestList />} />
+            <Route path="/AdminPage" element={<AdminPage/>}></Route>
           </Routes>
       </Provider>
     </Router>

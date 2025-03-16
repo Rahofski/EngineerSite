@@ -2,16 +2,69 @@ import { Button, Card, Input, Stack, Center, Box, IconButton } from "@chakra-ui/
 import { Field } from "../components/ui/field";
 import { useState } from "react";
 import { InputGroup } from "./ui/input-group";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { jwtDecode } from "jwt-decode"; // Импортируем jwtDecode
+import { BASE_URL } from "@/App";
 
 export const CardWithForm = () => {
   const [show, setShow] = useState(false);
-  const [value, setValue] = useState("");
-  const [secondValue, setSecondValue] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const navigate = useNavigate(); // Инициализация useNavigate
 
   const handleClear = () => {
-    setValue(""); // Очищаем значение инпута
-    setSecondValue(""); // Очищаем значение инпута
+    setEmail(""); // Очищаем значение инпута
+    setPassword(""); // Очищаем значение инпута
+  };
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(BASE_URL + "/login/log", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Something went wrong");
+      }
+  
+      // Получаем токен
+      const data = await response.json();
+      const token = data.token;
+  
+      // Сохраняем токен в localStorage
+      localStorage.setItem("token", token);
+  
+      // Декодируем токен
+      const decodedToken = jwtDecode<{ isAdmin?: boolean }>(token);
+  
+      // Определяем, куда перенаправлять пользователя
+      const redirectPath = decodedToken.isAdmin ? "/AdminPage" : "/request";
+  
+      // Очистка полей
+      setEmail("");
+      setPassword("");
+  
+      console.log("Login succeeded, redirecting to", redirectPath);
+  
+      // Перенаправление на нужную страницу
+      setTimeout(() => {
+        navigate(redirectPath);
+      }, 1000);
+    } catch (error) {
+      console.log("Ошибка при логине:", error);
+  
+      // В случае ошибки можно оставить редирект на "/request" по умолчанию
+      setTimeout(() => {
+        navigate("/AdminPage");
+      }, 1000);
+    }
   };
 
   return (
@@ -42,8 +95,8 @@ export const CardWithForm = () => {
                 type="email"
                 placeholder="Введите почту"
                 _placeholder={{ color: "lightgrey" }}
-                value={value}
-                onChange={(e) => setValue(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </Field>
             <Field label="Пароль">
@@ -52,9 +105,9 @@ export const CardWithForm = () => {
                   <Input
                     type={show ? "text" : "password"} // Меняет тип на "text", когда show == true
                     placeholder="Введите пароль"
-                    value={secondValue}
+                    value={password}
                     _placeholder={{ color: "lightgrey" }}
-                    onChange={(e) => setSecondValue(e.target.value)}
+                    onChange={(e) => setPassword(e.target.value)}
                     w="250px"
                     pr="3rem" // Добавляем отступ справа для кнопки
                   />
@@ -78,9 +131,7 @@ export const CardWithForm = () => {
         </Card.Body>
         <Card.Footer justifyContent="space-between">
           <Button variant="solid" onClick={handleClear}>Сбросить</Button>
-					<Link to="/request">
-            <Button variant="solid">Войти</Button>
-          </Link>  
+          <Button variant="solid" onClick={handleLogin}>Войти</Button>
         </Card.Footer>
       </Card.Root>
     </Center>

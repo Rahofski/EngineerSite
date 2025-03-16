@@ -1,6 +1,6 @@
 import { Box, Button, Card, Image, Text } from "@chakra-ui/react";
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { Request } from "./RequestList";
 import { BASE_URL } from "../App";
@@ -36,30 +36,71 @@ const mockBuildings: Building[] = [
 
 export const RequestItem = ({ request }: { request: Request }) => {
   const [show, setShow] = useState(false);
+  const queryClient = useQueryClient();
   const textColor = useColorModeValue("white", "green.200");
-  const bgColor = useColorModeValue("linear-gradient(to bottom, #34D399, #064E3B)", "#111111");
+  const numberColor = useColorModeValue("white", "white");
+
+  const bgColor = useColorModeValue(
+    "linear-gradient(to bottom, #34D399, #064E3B)",
+    "#111111"
+  );
+  const buttonBgColor = "green.500";
+  const buttonTextColor = "white";
 
   // Получаем здания с сервера
   const { data: buildings, isError } = useQuery<Building[]>({
     queryKey: ["buildings"],
     queryFn: async () => {
       try {
-        const res = await fetch(`${BASE_URL}/buildings`);
-        if (!res.ok) throw new Error("Ошибка загрузки зданий");
-        return await res.json();
-      } catch (error) {
-        console.error("Ошибка загрузки зданий:", error);
+        const res = await fetch(BASE_URL + "/buildings", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        const data = await res.json();
+        if (!res.ok) {
+          throw new Error(data.message || "Something went wrong");
+        }
+        return data || [];
+      } catch (error: any) {
+        console.error("Error fetching buildings:", error);
         throw error;
       }
     },
-    retry: 1, // Попробовать загрузить 1 раз, затем использовать mock
   });
 
-  // Если запрос не удался, используем mockBuildings
+  // Используем mockBuildings в случае ошибки
   const buildingsList = isError ? mockBuildings : buildings || [];
-
-  // Находим нужное здание по `building_id`
   const building = buildingsList.find((b) => b._id === request.building_id);
+
+  // Мутация для обновления статуса заявки
+  const updateStatusMutation = useMutation({
+    mutationFn: async (newStatus: string) => {
+      const res = await fetch(`${BASE_URL}/requests/${request._id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Ошибка обновления статуса");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["requests"] }); // Обновляем список заявок
+    },
+  });
+
+  // Функция для изменения статуса
+  const handleUpdateStatus = async (newStatus: string) => {
+    try {
+      await updateStatusMutation.mutateAsync(newStatus);
+    } catch (error) {
+      console.error("Ошибка при обновлении статуса:", error);
+    }
+  };
 
   return (
     <Card.Root
@@ -71,11 +112,13 @@ export const RequestItem = ({ request }: { request: Request }) => {
       m="auto"
       mt="30px"
       bg={bgColor}
-      p={4} // Добавил общий padding
+      p={4}
     >
       <Box>
         <Card.Body>
-          <Card.Title mb="2">Заявка №{request._id}</Card.Title>
+          <Card.Title mb="2" color={numberColor}>
+            Заявка №{request._id}
+          </Card.Title>
           <Card.Description>
             <Text color={textColor}>
               {building ? `${building.name}, ${building.address}` : "Неизвестное здание"}
@@ -85,8 +128,34 @@ export const RequestItem = ({ request }: { request: Request }) => {
           </Card.Description>
         </Card.Body>
         <Card.Footer>
-          <Button>Взять заявку</Button>
-          <Button onClick={() => setShow(!show)}>{show ? "Скрыть" : "Подробнее"}</Button>
+          {request.status === "not taken" && (
+            <Button
+              bg={buttonBgColor}
+              color={buttonTextColor}
+              onClick={() => handleUpdateStatus("in progress")}
+            >
+              Взять заявку
+            </Button>
+          )}
+
+          {request.status === "in progress" && (
+            <>
+              <Button
+                bg="blue.500"
+                color={buttonTextColor}
+                onClick={() => handleUpdateStatus("done")}
+              >
+                Завершить заявку
+              </Button>
+              <Button
+                bg="red.500"
+                color={buttonTextColor}
+                onClick={() => handleUpdateStatus("not taken")}
+              >
+                Отказаться
+              </Button>
+            </>
+          )}
         </Card.Footer>
       </Box>
       {show && (
@@ -95,10 +164,13 @@ export const RequestItem = ({ request }: { request: Request }) => {
           maxW="200px"
           src={request.img}
           alt="broken toilet"
-          mt={2} // Отступ сверху, чтобы картинка не сливалась с кнопками
-          ml={4} // Отступ слева, равный отступу текста в карточке
+          mt={2}
+          ml={4}
         />
       )}
+      <Button bg={buttonBgColor} color={buttonTextColor} onClick={() => setShow(!show)}>
+        {show ? "Скрыть" : "Подробнее"}
+      </Button>
     </Card.Root>
   );
 };
