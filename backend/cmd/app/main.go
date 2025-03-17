@@ -8,8 +8,9 @@ import (
 	"backend/internal/service"
 	"log"
 
+	//"backend/internal/pkg/utils"
+
 	"github.com/gin-gonic/gin"
-	// "backend/internal/pkg/utils"
 )
 
 func main() {
