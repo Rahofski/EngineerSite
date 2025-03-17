@@ -24,8 +24,6 @@ func NewAuthService(userRepo *repository.UserRepository, secret string) *AuthSer
 
 func (s *AuthService) Login(username, password string) (*models.LoginResponce, error) {
 
-	// get user by usesrname
-
 	user, err := s.UserRepo.GetByUsername(username)
 	if err != nil {
 		return nil, fmt.Errorf("failed to find user: %w", err)
@@ -34,21 +32,15 @@ func (s *AuthService) Login(username, password string) (*models.LoginResponce, e
 		return nil, fmt.Errorf("invalid username or password")
 	}
 
-	// chek password
-
 	err = user.CheckPassword(password)
 	if err != nil {
 		return nil, fmt.Errorf("invalid password")
 	}
 
-	// generate token
-
 	token, err := s.generateToken(user)
 	if err != nil {
 		return nil, fmt.Errorf("failed to generate token: %w", err)
 	}
-
-	// do responce
 
 	return &models.LoginResponce{
 		AccessToken: token,
@@ -61,6 +53,7 @@ func (s *AuthService) generateToken(user *models.User) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id":  user.UserID,
 		"username": user.Username,
+		"role":     user.Role,
 		"exp":      time.Now().Add(time.Hour * 24).Unix(),
 	}
 
