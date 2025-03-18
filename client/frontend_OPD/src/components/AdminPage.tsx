@@ -73,13 +73,15 @@ export const AdminPage = () => {
           throw error;
         }
       },
+      enabled: showRequests, // 🔥 Данные загружаются ТОЛЬКО если showRequests === true
     });
   
     if (error) {
       console.error("Error fetching requests:", error);
     }
-  
-    const allRequests = requests || mockRequests;
+
+  const allRequests = requests || mockRequests;
+
   
     return (
       <Flex p={6} gap={10}>
@@ -100,15 +102,17 @@ export const AdminPage = () => {
             {showRequests ? "Скрыть заявки" : "Показать заявки"}
           </Button>
   
-          {isLoading && (
+          {/* 🔥 Теперь "Загрузка..." появляется только если showRequests === true */}
+          {showRequests && isLoading && (
             <Box textAlign="center" my={4}>
               <Text fontSize="xl">Загрузка...</Text>
             </Box>
           )}
   
-          {!isLoading && showRequests && (
+          {/* Показываем заявки только если showRequests === true */}
+          {showRequests && !isLoading && (
             <Stack gap={6}>
-              {allRequests.length > 0 ? (
+              {allRequests && allRequests.length > 0 ? (
                 allRequests.map((request) => <RequestItem key={request._id} request={request} />)
               ) : (
                 <Text color="gray.500">Нет заявок</Text>
