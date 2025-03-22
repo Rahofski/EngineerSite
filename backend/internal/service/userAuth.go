@@ -22,7 +22,7 @@ func NewAuthService(userRepo *repository.UserRepository, secret string) *AuthSer
 	}
 }
 
-func (s *AuthService) Login(username, password string) (*models.LoginResponce, error) {
+func (s *AuthService) Login(username, password string) (*models.LoginResponse, error) {
 
 	user, err := s.UserRepo.GetByUsername(username)
 	if err != nil {
@@ -42,9 +42,9 @@ func (s *AuthService) Login(username, password string) (*models.LoginResponce, e
 		return nil, fmt.Errorf("failed to generate token: %w", err)
 	}
 
-	return &models.LoginResponce{
+	return &models.LoginResponse{
 		AccessToken: token,
-		User:        *user.ToResponce(),
+		User:        *user.ToResponse(),
 	}, nil
 }
 

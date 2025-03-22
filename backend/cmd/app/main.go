@@ -6,11 +6,8 @@ import (
 	"backend/internal/repository"
 	"backend/internal/repository/postgres"
 	"backend/internal/service"
-	"log"
-
-	//"backend/internal/pkg/utils"
-
 	"github.com/gin-gonic/gin"
+	"log"
 )
 
 func main() {
@@ -38,7 +35,5 @@ func main() {
 
 	r.POST("/user/login", authHandler.LogIn)
 
-	if err := r.Run(cfg.Server.Adress); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
-	}
+	//if err := r.Run(cfg.Server.Adress); err != nil {log.Fatalf("Failed to start server: %v", err)}
 }
