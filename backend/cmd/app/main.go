@@ -30,10 +30,12 @@ func main() {
 
 	repo := repository.NewRepository(db)
 	authHandler := handler.NewAuthHandler(service.NewAuthService(&repo.User, cfg.Secret))
+	addHandler := handler.NewAddHandler(service.NewAddService(&repo.User))
 
 	r := gin.Default()
 
-	r.POST("/user/login", authHandler.LogIn)
+	r.POST("api/user/login", authHandler.LogIn)
+	r.POST("api/user/add", addHandler.Add)
 
 	//if err := r.Run(cfg.Server.Adress); err != nil {log.Fatalf("Failed to start server: %v", err)}
 }

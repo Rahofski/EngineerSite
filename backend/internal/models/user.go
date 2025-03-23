@@ -45,9 +45,27 @@ func (u *User) CheckPassword(password string) error {
 type AddRequest struct {
 	UserID   int    `json:"user_id"`
 	Username string `json:"username"`
-	Password string `json:"password_hash"`
+	Password string `json:"password"`
 	Email    string `json:"email"`
 	Role     string `json:"role"`
+}
+
+func (u *AddRequest) ToUser() (*User, error) {
+
+	passwordHashBytes, err := bcrypt.GenerateFromPassword([]byte(u.Password), bcrypt.DefaultCost)
+	if err != nil {
+		return nil, fmt.Errorf("failed to hash password: %w", err)
+	}
+
+	passwordHashStr := string(passwordHashBytes)
+
+	return &User{
+		UserID:       u.UserID,
+		Username:     u.Username,
+		PasswordHash: passwordHashStr,
+		Email:        u.Email,
+		Role:         u.Role,
+	}, nil
 }
 
 func (u *AddRequest) ValidatePassword() error {
