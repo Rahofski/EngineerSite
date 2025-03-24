@@ -2,6 +2,7 @@ package handler
 
 import (
 	"backend/internal/models"
+	"backend/internal/repository"
 	"backend/internal/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
@@ -11,8 +12,9 @@ type LoginHandler struct {
 	service *service.LoginService
 }
 
-func NewLoginHandler(service *service.LoginService) *LoginHandler {
-	return &LoginHandler{service}
+func NewLoginHandler(userRepo *repository.UserRepository, secret string) *LoginHandler {
+	loginService := service.NewLoginService(userRepo, secret)
+	return &LoginHandler{loginService}
 }
 
 func (h *LoginHandler) Login(c *gin.Context) {

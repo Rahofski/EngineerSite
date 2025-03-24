@@ -18,6 +18,13 @@ type LoginRequest struct {
 	Password string `json:"password"`
 }
 
+type AddRequest struct {
+	FieldID  int    `json:"field_id"`
+	Password string `json:"password"`
+	Email    string `json:"email"`
+	Name     string `json:"name"`
+}
+
 func ComparePasswords(hash, plain string) error {
 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(plain))
 	if err != nil {
