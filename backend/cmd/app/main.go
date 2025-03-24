@@ -2,8 +2,12 @@ package main
 
 import (
 	"backend/internal/config"
+	"backend/internal/handler"
 	"backend/internal/pkg/utils"
+	"backend/internal/repository"
 	"backend/internal/repository/postgres"
+	"backend/internal/service"
+	"github.com/gin-gonic/gin"
 	"log"
 )
 
@@ -25,4 +29,10 @@ func main() {
 		log.Printf("Failed to print database structure: %w", err)
 	}
 
+	repo := repository.NewUserRepository(db)
+	loginHandler := handler.NewLoginHandler(service.NewLoginService(repo, cfg.Secret))
+
+	g := gin.Default()
+
+	g.POST("api/user/login", loginHandler.Login)
 }
