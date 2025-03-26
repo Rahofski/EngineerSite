@@ -41,3 +41,4 @@ func (h *AuthHandler) LogIn(c *gin.Context) {
 
 	c.JSON(http.StatusOK, responce)
 }
+

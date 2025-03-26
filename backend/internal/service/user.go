@@ -20,6 +20,7 @@ func NewAuthService(userRepo *repository.UserRepository, secret string) *AuthSer
 		UserRepo: userRepo,
 		secret:   secret,
 	}
+
 }
 
 func (s *AuthService) Login(username, password string) (*models.LoginResponce, error) {
@@ -34,7 +35,7 @@ func (s *AuthService) Login(username, password string) (*models.LoginResponce, e
 		return nil, fmt.Errorf("invalid username or password")
 	}
 
-	// chek password
+	// check password
 
 	err = user.CheckPassword(password)
 	if err != nil {
