@@ -20,18 +20,23 @@ func NewLoginHandler(userRepo *repository.UserRepository, secret string) *LoginH
 func (h *LoginHandler) Login(c *gin.Context) {
 
 	var loginReq models.LoginRequest
-	if err := c.ShouldBindJSON(loginReq); err != nil {
+	if err := c.ShouldBindJSON(&loginReq); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
 	}
 
 	if loginReq.Email == "" || loginReq.Password == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "both email and password are required"})
+		return
 	}
 
 	token, err := h.service.Login(&loginReq)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"token": token})
+	c.Header("Authorization", "Bearer "+token)
+	c.JSON(http.StatusOK, nil)
+
 }

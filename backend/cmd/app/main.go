@@ -25,7 +25,7 @@ func main() {
 
 	err = utils.PrintDB(db)
 	if err != nil {
-		log.Printf("Failed to print database structure: %w", err)
+		log.Printf("Failed to print database structure: %v", err)
 	}
 
 	repo := repository.NewRepository(db)
