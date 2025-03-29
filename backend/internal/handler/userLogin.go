@@ -36,7 +36,7 @@ func (h *LoginHandler) Login(c *gin.Context) {
 		return
 	}
 
-	c.Header("Authorization", "Bearer "+token)
+	c.Header("token", token)
 	c.JSON(http.StatusOK, nil)
 
 }

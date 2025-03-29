@@ -30,8 +30,10 @@ func main() {
 
 	repo := repository.NewRepository(db)
 	userHandler := handler.NewUserHandler(repo.User, cfg.Secret)
+	buildingHandler := handler.NewBuildingHandler(repo.Building)
 
 	g := gin.Default()
 
 	g.POST("api/user/login", userHandler.Login.Login)
+	g.GET("api/building/getAll", buildingHandler.GetBuildings)
 }
