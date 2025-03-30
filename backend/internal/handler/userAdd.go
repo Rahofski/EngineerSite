@@ -6,7 +6,7 @@ import (
 )
 
 type AddHandler struct {
-	service *service.AddService
+	service *service.UserAddService
 }
 
 func NewAddHandler(userRepo *repository.UserRepository) *AddHandler {

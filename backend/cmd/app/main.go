@@ -16,12 +16,14 @@ func main() {
 	if err != nil {
 		log.Fatalf("Failed to load config: %v", err)
 	}
+	log.Println("loaded config")
 
 	db, err := postgres.NewPostgresDB(*cfg)
 	if err != nil {
 		log.Fatalf("Failed to connect to database: %v", err)
 	}
 	defer db.Close()
+	log.Println("connected to database")
 
 	err = utils.PrintDB(db)
 	if err != nil {
@@ -31,9 +33,11 @@ func main() {
 	repo := repository.NewRepository(db)
 	userHandler := handler.NewUserHandler(repo.User, cfg.Secret)
 	buildingHandler := handler.NewBuildingHandler(repo.Building)
+	requestHandler := handler.NewRequestHandler(repo.Request)
 
 	g := gin.Default()
 
 	g.POST("api/user/login", userHandler.Login.Login)
 	g.GET("api/building/getAll", buildingHandler.GetBuildings)
+	g.POST("api/request/add", requestHandler.AddRequest)
 }
