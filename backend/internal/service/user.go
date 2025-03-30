@@ -8,16 +8,16 @@ import (
 	"time"
 )
 
-type LoginService struct {
+type UserService struct {
 	userRepo *repository.UserRepository
 	secret   string
 }
 
-func NewLoginService(userRepo *repository.UserRepository, secret string) *LoginService {
-	return &LoginService{userRepo, secret}
+func NewLoginService(userRepo *repository.UserRepository, secret string) *UserService {
+	return &UserService{userRepo, secret}
 }
 
-func (s *LoginService) Login(request *models.LoginRequest) (string, error) {
+func (s *UserService) Login(request *models.LoginRequest) (string, error) {
 
 	user, err := s.userRepo.GetByEmail(request.Email)
 	if err != nil {
@@ -37,7 +37,7 @@ func (s *LoginService) Login(request *models.LoginRequest) (string, error) {
 	return token, nil
 }
 
-func (s *LoginService) generateToken(user *models.User) (string, error) {
+func (s *UserService) generateToken(user *models.User) (string, error) {
 
 	expTime := time.Now().Add(24 * time.Hour).Unix()
 

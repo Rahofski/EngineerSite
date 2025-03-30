@@ -37,7 +37,7 @@ func main() {
 
 	g := gin.Default()
 
-	g.POST("api/user/login", userHandler.Login.Login)
+	g.POST("api/user/login", userHandler.Login)
 	g.GET("api/building/getAll", buildingHandler.GetBuildings)
 	g.POST("api/request/add", requestHandler.AddRequest)
 }
