@@ -34,8 +34,11 @@ func (r *BuildingRepository) GetBuildings() ([]models.Building, error) {
 		)
 
 		if err != nil {
-			return res, fmt.Errorf("error scanning building rows: %w", err)
+			return nil, fmt.Errorf("error scanning buildings: %w", err)
 		}
+
+		res = append(res, b)
+
 	}
 
 	return res, nil

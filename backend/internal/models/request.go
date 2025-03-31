@@ -1,12 +1,14 @@
 package models
 
+import "time"
+
 type Request struct {
-	RequestID  int      `json:"request_id"`
-	BuildingID int      `json:"building_id"`
-	FieldID    int      `json:"field_id"`
-	UserID     int      `json:"user_id"`
-	Time       string   `json:"time"`
-	Status     string   `json:"status"`
-	Photos     []string `json:"photos"`
-	TextInfo   string   `json:"additional_info"`
+	RequestID  int `json:"request_id"`
+	BuildingID int `json:"building_id"`
+	FieldID    int `json:"field_id"`
+	// UserID     int      `json:"user_id"`
+	Time     time.Time `json:"time"`
+	Status   string    `json:"status"`
+	Photos   []string  `json:"photos"`
+	TextInfo string    `json:"additional_text"`
 }

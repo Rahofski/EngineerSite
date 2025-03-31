@@ -6,6 +6,7 @@ import (
 	"backend/internal/pkg/utils"
 	"backend/internal/repository"
 	"backend/internal/repository/postgres"
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"log"
 )
@@ -37,7 +38,15 @@ func main() {
 
 	g := gin.Default()
 
+	g.Use(cors.New(cors.Config{
+		AllowOrigins: []string{"*"}, // Или явно укажите "http://localhost:5173"
+		AllowMethods: []string{"GET", "POST", "OPTIONS"},
+		AllowHeaders: []string{"Content-Type"},
+	}))
+
 	g.POST("api/user/login", userHandler.Login)
-	g.GET("api/building/getAll", buildingHandler.GetBuildings)
+	g.GET("api/buildings", buildingHandler.GetBuildings)
 	g.POST("api/request/add", requestHandler.AddRequest)
+
+	g.Run("0.0.0.0:8080")
 }
