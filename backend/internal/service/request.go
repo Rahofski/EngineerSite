@@ -7,10 +7,11 @@ import (
 
 type RequestService struct {
 	requestRepo *repository.RequestRepository
+	Secret      string
 }
 
-func NewRequestService(repo *repository.RequestRepository) *RequestService {
-	return &RequestService{repo}
+func NewRequestService(repo *repository.RequestRepository, secret string) *RequestService {
+	return &RequestService{repo, secret}
 }
 
 func (s *RequestService) AddRequest(request *models.Request) (int, error) {
@@ -21,4 +22,14 @@ func (s *RequestService) AddRequest(request *models.Request) (int, error) {
 	}
 
 	return request.RequestID, nil
+}
+
+func (s *RequestService) GetRequests(fieldID int) ([]models.Request, error) {
+
+	requests, err := s.requestRepo.GetRequests(fieldID)
+	if err != nil {
+		return nil, err
+	}
+
+	return requests, nil
 }

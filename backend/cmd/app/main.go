@@ -34,12 +34,12 @@ func main() {
 	repo := repository.NewRepository(db)
 	userHandler := handler.NewUserHandler(repo.User, cfg.Secret)
 	buildingHandler := handler.NewBuildingHandler(repo.Building)
-	requestHandler := handler.NewRequestHandler(repo.Request)
+	requestHandler := handler.NewRequestHandler(repo.Request, cfg.Secret)
 
 	g := gin.Default()
 
 	g.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"*"}, // Или явно укажите "http://localhost:5173"
+		AllowOrigins: []string{"*"},
 		AllowMethods: []string{"GET", "POST", "OPTIONS"},
 		AllowHeaders: []string{"Content-Type"},
 	}))
@@ -47,6 +47,7 @@ func main() {
 	g.POST("api/user/login", userHandler.Login)
 	g.GET("api/buildings", buildingHandler.GetBuildings)
 	g.POST("api/request/add", requestHandler.AddRequest)
+	g.GET("api/requests", requestHandler.GetRequests)
 
 	g.Run("0.0.0.0:8080")
 }
