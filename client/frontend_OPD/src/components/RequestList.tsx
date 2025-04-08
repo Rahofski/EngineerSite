@@ -1,9 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../App";
-import { Text, Stack, Box, Heading, Flex, SimpleGrid, Badge, Image } from "@chakra-ui/react";
+import { Text, Stack, Box, Heading, Flex, SimpleGrid, Badge} from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { RequestItem } from "./RequestItem";
-import logo from './logo_vert.png';
+import {Header} from "./Header"
 export type Building = {
   _id: number;
   name: string;
@@ -46,7 +46,7 @@ const mockRequests: Request[] = [
   {
     _id: 3,
     building_id: 2,
-    field_id: 0,
+    field_id: 6,
     user_id: 0,
     description: "Сломан лифт",
     img: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",
@@ -118,22 +118,7 @@ export const RequestList = () => {
 
       {!isLoading && (
         <Stack gap={8}>
-          {/* Заголовок страницы с логотипом */}
-          <Flex align="center" mb={4}>
-            <Image 
-              src={logo} 
-              alt="Логотип СПбПУ" 
-              boxSize="100px"
-              mr={4}
-            />
-            <Box>
-              <Heading as="h1" size="xl" color={headingColor} mb={1}>
-                Система управления заявками
-              </Heading>
-              <Text color="gray.600">Санкт-Петербургский политехнический университет Петра Великого</Text>
-            </Box>
-          </Flex>
-
+          <Header/>
           {/* Статистика по заявкам */}
           <SimpleGrid columns={{ base: 1, md: 3 }} gap={4}>
             <Box 

@@ -52,7 +52,7 @@ export const AdminPanel = () => {
   };
 
   return (
-    <Box>
+    <Box h="600px">
       <Heading as="h2" size="md" mb={4} textAlign="center">
         Управление инженерами
       </Heading>
