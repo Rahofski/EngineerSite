@@ -12,7 +12,7 @@ export type Request = {
   user_id: number;
   description: string;
   img: string;
-  status: string;
+  status: "in progress" | "not taken" | "done";
   time: string;
 };
 
@@ -113,7 +113,15 @@ export const AdminPage = () => {
           {showRequests && !isLoading && (
             <Stack gap={6}>
               {allRequests && allRequests.length > 0 ? (
-                allRequests.map((request) => <RequestItem key={request._id} request={request} />)
+                allRequests.map((request) => (
+                  <RequestItem
+                    key={request._id}
+                    request={request}
+                    primaryColor="blue"
+                    secondaryColor="gray"
+                    accentColor="red"
+                  />
+                ))
               ) : (
                 <Text color="gray.500">Нет заявок</Text>
               )}

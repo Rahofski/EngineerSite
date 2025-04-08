@@ -2,7 +2,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer } from "recha
 import { Box, Heading, Flex } from "@chakra-ui/react";
 import { Request } from "./AdminPage";
 
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#A020F0", "#DC143C"];
+const COLORS = ["#0088FE", "#FFBB28", "#FF8042", "#A020F0", "#DC143C"];
 
 const FIELD_NAMES: Record<number, string> = {
     0: "Плотник",
@@ -13,7 +13,6 @@ const FIELD_NAMES: Record<number, string> = {
   const STATUS_NAMES: Record<string, string> = {
     "in progress": "Заявки в процессе",
     "not taken": "Свободные заявки",
-    "done": "Выполненные заявки",
   };
   const processDataByField = (requests: Request[]) => {
     const counts: Record<number, number> = {};

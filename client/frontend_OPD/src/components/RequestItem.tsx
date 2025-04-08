@@ -108,22 +108,6 @@ export const RequestItem = ({
     },
   });
 
-  const deleteRequestMutation = useMutation({
-    mutationFn: async () => {
-      const res = await fetch(`${BASE_URL}/requests/${request._id}`, {
-        method: "DELETE",
-        headers: { "Content-Type": "application/json" },
-      });
-
-      if (!res.ok) {
-        throw new Error("Ошибка удаления заявки");
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["requests"] });
-    },
-  });
-
   const handleUpdateStatus = async (newStatus: string) => {
     try {
       await updateStatusMutation.mutateAsync(newStatus);
@@ -132,13 +116,7 @@ export const RequestItem = ({
     }
   };
 
-  const handleDeleteRequest = async () => {
-    try {
-      await deleteRequestMutation.mutateAsync();
-    } catch (error) {
-      console.error("Ошибка при удалении заявки:", error);
-    }
-  };
+  
 
   return (
     <Card.Root 
@@ -232,16 +210,7 @@ export const RequestItem = ({
                 >
                   Взять в работу
                 </Button>
-                <Button 
-                  color={secondaryColor}
-                  borderColor={secondaryColor}
-                  variant="outline" 
-                  size="sm" 
-                  flex="1"
-                  onClick={handleDeleteRequest}
-                >
-                  Удалить
-                </Button>
+                
               </>
             )}
 
@@ -270,18 +239,7 @@ export const RequestItem = ({
               </>
             )}
 
-            {request.status === "done" && (
-              <Button 
-                color={secondaryColor}
-                borderColor={secondaryColor}
-                variant="outline" 
-                size="sm" 
-                width="full"
-                onClick={handleDeleteRequest}
-              >
-                Удалить
-              </Button>
-            )}
+            
           </Flex>
         </Stack>
       </Card.Footer>

@@ -18,7 +18,7 @@ export const CardWithForm = () => {
   };
   const handleLogin = async () => {
     try {
-      const response = await fetch(BASE_URL + "/login/log", {
+      const response = await fetch(BASE_URL + "/user/login", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -29,6 +29,9 @@ export const CardWithForm = () => {
         }),
       });
   
+      const status = response.status;
+      console.log("HTTP Status Code:", status);
+
       if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || "Something went wrong");
@@ -36,16 +39,21 @@ export const CardWithForm = () => {
   
       // Получаем токен
       const data = await response.json();
+      console.log(data);
       const token = data.token;
+
+      if (!token) {
+        throw new Error("No token received");
+      }
   
       // Сохраняем токен в localStorage
       localStorage.setItem("token", token);
   
       // Декодируем токен
-      const decodedToken = jwtDecode<{ isAdmin?: boolean }>(token);
+      const decodedToken = jwtDecode<{ field_id?: number }>(token);
   
       // Определяем, куда перенаправлять пользователя
-      const redirectPath = decodedToken.isAdmin ? "/AdminPage" : "/request";
+      const redirectPath = (decodedToken.field_id === 4) ? "/AdminPage" : "/request";
   
       // Очистка полей
       setEmail("");
@@ -62,7 +70,7 @@ export const CardWithForm = () => {
   
       // В случае ошибки можно оставить редирект на "/request" по умолчанию
       setTimeout(() => {
-        navigate("/request");
+        navigate("/AdminPage");
       }, 1000);
     }
   };
