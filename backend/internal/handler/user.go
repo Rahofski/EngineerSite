@@ -37,3 +37,42 @@ func (h *UserHandler) Login(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"token": token})
 }
+
+func (h *UserHandler) AddUser(c *gin.Context) {
+
+	tokenString, err := models.ExtractBearerToken(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	isAdmin, err := models.IsAdmin(tokenString, h.service.Secret)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !isAdmin {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "not an admin"})
+		return
+	}
+
+	var addReq models.AddRequest
+	if err := c.ShouldBindJSON(&addReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if addReq.Email == "" || addReq.Password == "" || addReq.Name == "" || addReq.FieldID == 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "all fields are required"})
+		return
+	}
+
+	userID, err := h.service.AddUser(&addReq)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"user_id": userID})
+}

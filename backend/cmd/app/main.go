@@ -49,6 +49,7 @@ func main() {
 	g.POST("api/request/add", requestHandler.AddRequest)
 	g.GET("api/requests", requestHandler.GetRequests)
 	g.POST("api/request/status", requestHandler.UpdateStatus)
+	g.POST("api/user/add", userHandler.AddUser)
 
 	g.Run("0.0.0.0:8080")
 }

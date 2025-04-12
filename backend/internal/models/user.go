@@ -131,3 +131,17 @@ func UnmarshalToken(tokenString, secret string) (*Token, error) {
 
 	return &tokenStruct, nil
 }
+
+func IsAdmin(tokenString, secret string) (bool, error) {
+
+	token, err := UnmarshalToken(tokenString, secret)
+	if err != nil {
+		return false, fmt.Errorf("failed to parse token: %w", err)
+	}
+
+	if token.FieldID == 4 {
+		return true, nil
+	}
+
+	return false, nil
+}

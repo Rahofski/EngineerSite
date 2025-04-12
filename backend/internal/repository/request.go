@@ -6,7 +6,6 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/lib/pq"
-	"log"
 	"time"
 )
 
@@ -20,19 +19,6 @@ func NewRequestRepository(db *sql.DB) *RequestRepository {
 }
 
 func (r *RequestRepository) AddRequest(request *models.Request) error {
-
-	log.Printf(
-		`
-
-	ID : %v,
-	bld_ID : %v,
-	field_id : %v,
-	timestamp : %v,
-	status : %v,
-	photos : %v,
-	text : %v
-
-`, request.RequestID, request.BuildingID, request.FieldID, request.Time, request.Status, request.Photos, request.TextInfo)
 
 	query := `
 		INSERT INTO requests(
@@ -58,7 +44,6 @@ func (r *RequestRepository) AddRequest(request *models.Request) error {
 	).Scan(&request.RequestID)
 
 	if err != nil {
-		log.Printf(err.Error())
 		return fmt.Errorf("failded to add request: %w", err)
 	}
 

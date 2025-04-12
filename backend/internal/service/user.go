@@ -10,7 +10,7 @@ import (
 
 type UserService struct {
 	userRepo *repository.UserRepository
-	secret   string
+	Secret   string
 }
 
 func NewLoginService(userRepo *repository.UserRepository, secret string) *UserService {
@@ -49,10 +49,25 @@ func (s *UserService) generateToken(user *models.User) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	tokenString, err := token.SignedString([]byte(s.secret))
+	tokenString, err := token.SignedString([]byte(s.Secret))
 	if err != nil {
 		return "", fmt.Errorf("failed to sign token: %w", err)
 	}
 
 	return tokenString, nil
+}
+
+func (s *UserService) AddUser(addReq *models.AddRequest) (int, error) {
+
+	_, err := s.userRepo.GetByEmail(addReq.Email)
+	if err == nil {
+		return -1, fmt.Errorf("user already exists")
+	}
+
+	userID, err := s.userRepo.AddUser(addReq)
+	if err != nil {
+		return -1, fmt.Errorf("failed to add user: %w", err)
+	}
+
+	return userID, nil
 }
