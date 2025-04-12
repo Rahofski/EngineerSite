@@ -48,6 +48,7 @@ func main() {
 	g.GET("api/buildings", buildingHandler.GetBuildings)
 	g.POST("api/request/add", requestHandler.AddRequest)
 	g.GET("api/requests", requestHandler.GetRequests)
+	g.POST("api/request/status", requestHandler.UpdateStatus)
 
 	g.Run("0.0.0.0:8080")
 }

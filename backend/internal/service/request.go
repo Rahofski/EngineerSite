@@ -33,3 +33,18 @@ func (s *RequestService) GetRequests(fieldID int) ([]models.Request, error) {
 
 	return requests, nil
 }
+
+func (s *RequestService) UpdateStatus(requestID int, status string) error {
+
+	err := models.CheckStatus(status)
+	if err != nil {
+		return err
+	}
+
+	err = s.requestRepo.ChangeStatus(requestID, status)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

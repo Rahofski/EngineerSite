@@ -113,3 +113,23 @@ func (r *RequestRepository) GetRequests(fieldID int) ([]models.Request, error) {
 
 	return res, nil
 }
+
+func (r *RequestRepository) ChangeStatus(requestID int, status string) error {
+
+	query := "UPDATE requests SET status = $1 WHERE requestID = $2"
+	res, err := r.db.Exec(query, status, requestID)
+	if err != nil {
+		return fmt.Errorf("failed to update request status: %v", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to get affected rows: %v", err)
+	}
+
+	if rowsAffected == 0 {
+		return fmt.Errorf("request with ID %d not found", requestID)
+	}
+
+	return nil
+}

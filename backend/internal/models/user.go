@@ -2,8 +2,10 @@ package models
 
 import (
 	"fmt"
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v5"
 	"golang.org/x/crypto/bcrypt"
+	"strings"
 	"time"
 )
 
@@ -42,7 +44,36 @@ type Token struct {
 	Exp     time.Time `json:"exp"`
 }
 
-func ParseToken(tokenString, secret string) (*Token, error) {
+func ExtractBearerToken(c *gin.Context) (string, error) {
+
+	authHeader := c.GetHeader("Authorization")
+	if authHeader == "" {
+		return "", fmt.Errorf("authorization header is required")
+	}
+
+	tokenParts := strings.Split(authHeader, " ")
+	if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
+		return "", fmt.Errorf("invalid authorization header format")
+	}
+
+	return tokenParts[1], nil
+}
+
+func ValidateToken(token *jwt.Token) (jwt.MapClaims, error) {
+
+	if !token.Valid {
+		return nil, fmt.Errorf("invalid token")
+	}
+
+	claims, ok := token.Claims.(jwt.MapClaims)
+	if !ok {
+		return nil, fmt.Errorf("invalid token claims structure")
+	}
+
+	return claims, nil
+}
+
+func ParseToken(tokenString, secret string) (*jwt.Token, error) {
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 
@@ -57,13 +88,19 @@ func ParseToken(tokenString, secret string) (*Token, error) {
 		return nil, fmt.Errorf("failed to parse token: %w", err)
 	}
 
-	if !token.Valid {
-		return nil, fmt.Errorf("invalid token")
+	return token, nil
+}
+
+func UnmarshalToken(tokenString, secret string) (*Token, error) {
+
+	token, err := ParseToken(tokenString, secret)
+	if err != nil {
+		return nil, err
 	}
 
-	claims, ok := token.Claims.(jwt.MapClaims)
-	if !ok {
-		return nil, fmt.Errorf("invalid token claims structure")
+	claims, err := ValidateToken(token)
+	if err != nil {
+		return nil, err
 	}
 
 	var tokenStruct Token

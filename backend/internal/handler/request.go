@@ -6,7 +6,6 @@ import (
 	"backend/internal/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
-	"strings"
 )
 
 type RequestHandler struct {
@@ -36,20 +35,12 @@ func (h *RequestHandler) AddRequest(c *gin.Context) {
 
 func (h *RequestHandler) GetRequests(c *gin.Context) {
 
-	authHeader := c.GetHeader("Authorization")
-	if authHeader == "" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Authorization header is required"})
-		return
+	tokenString, err := models.ExtractBearerToken(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 	}
 
-	tokenParts := strings.Split(authHeader, " ")
-	if len(tokenParts) != 2 || tokenParts[0] != "Bearer" {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid Authorization header format"})
-		return
-	}
-
-	tokenString := tokenParts[1]
-	token, err := models.ParseToken(tokenString, h.service.Secret)
+	token, err := models.UnmarshalToken(tokenString, h.service.Secret)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": "Invalid token: " + err.Error()})
 		return
@@ -62,4 +53,44 @@ func (h *RequestHandler) GetRequests(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"requests": requests})
+}
+
+func (h *RequestHandler) UpdateStatus(c *gin.Context) {
+
+	tokenString, err := models.ExtractBearerToken(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	token, err := models.ParseToken(tokenString, h.service.Secret)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	_, err = models.ValidateToken(token)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	var statusReq models.StatusRequest
+	if err := c.ShouldBindJSON(&statusReq); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	if statusReq.RequestID == 0 || statusReq.Status == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Both ID and Status are required"})
+		return
+	}
+
+	err = h.service.UpdateStatus(statusReq.RequestID, statusReq.Status)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status changed": statusReq.Status})
 }
