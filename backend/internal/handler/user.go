@@ -76,3 +76,42 @@ func (h *UserHandler) AddUser(c *gin.Context) {
 
 	c.JSON(http.StatusOK, gin.H{"user_id": userID})
 }
+
+func (h *UserHandler) RemoveUser(c *gin.Context) {
+
+	tokenString, err := models.ExtractBearerToken(c)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	isAdmin, err := models.IsAdmin(tokenString, h.service.Secret)
+	if err != nil {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
+		return
+	}
+
+	if !isAdmin {
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "not an admin"})
+		return
+	}
+
+	var email string
+	if err := c.ShouldBindJSON(&email); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "no email provided"})
+		return
+	}
+
+	if email == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "no email provided"})
+		return
+	}
+
+	err = h.service.RemoveUser(email)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"message": "user successfully removed"})
+}

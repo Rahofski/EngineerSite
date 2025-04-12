@@ -71,3 +71,12 @@ func (s *UserService) AddUser(addReq *models.AddRequest) (int, error) {
 
 	return userID, nil
 }
+
+func (s *UserService) RemoveUser(email string) error {
+
+	err := s.userRepo.RemoveUser(email)
+	if err != nil {
+		return err
+	}
+	return nil
+}

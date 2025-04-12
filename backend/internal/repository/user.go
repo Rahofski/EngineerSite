@@ -70,3 +70,24 @@ func (r *UserRepository) AddUser(addReq *models.AddRequest) (int, error) {
 
 	return userID, nil
 }
+
+func (r *UserRepository) RemoveUser(email string) error {
+
+	query := `DELETE FROM users WHERE email = $1`
+
+	res, err := r.db.Exec(query, email)
+	if err != nil {
+		return fmt.Errorf("database error while removing user: %w", err)
+	}
+
+	rowsAffected, err := res.RowsAffected()
+	if err != nil {
+		return fmt.Errorf("failed to check affected rows: %w", err)
+	}
+
+	if rowsAffected == 0 {
+		return fmt.Errorf("user with email %s not found", email)
+	}
+
+	return nil
+}
