@@ -56,14 +56,21 @@ const mockRequests: Request[] = [
 ];
 
 export const RequestList = () => {
+  const token = localStorage.getItem("token"); // Получаем токен из localStorage
+
   const { data: requests, isLoading, error } = useQuery<Request[]>({
     queryKey: ["requests"],
     queryFn: async () => {
       try {
+        if (!token) {
+          throw new Error("No token provided"); // Проверяем наличие токена
+      }
+
         const res = await fetch(BASE_URL + "/requests", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
           },
         });
 

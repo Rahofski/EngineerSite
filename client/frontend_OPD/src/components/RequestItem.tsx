@@ -43,7 +43,9 @@ export const RequestItem = ({
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
-}) => {
+  }) => {
+    const token = localStorage.getItem("token"); // Получаем токен из localStorage
+  
   const [show, setShow] = useState(false);
   const queryClient = useQueryClient();
 
@@ -69,6 +71,9 @@ export const RequestItem = ({
     queryKey: ["buildings"],
     queryFn: async () => {
       try {
+        if (!token) {
+          throw new Error("No token provided"); // Проверяем наличие токена
+      }
         const res = await fetch(BASE_URL + "/buildings", {
           method: "GET",
           headers: {
@@ -95,7 +100,10 @@ export const RequestItem = ({
     mutationFn: async (newStatus: string) => {
       const res = await fetch(`${BASE_URL}/requests/${request._id}`, {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          Authtorization: `Bearer ${token}`, 
+        },
         body: JSON.stringify({ status: newStatus }),
       });
 
