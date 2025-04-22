@@ -46,7 +46,7 @@ const mockRequests: Request[] = [
   {
     _id: 3,
     building_id: 2,
-    field_id: 6,
+    field_id: 5,
     user_id: 0,
     description: "Сломан лифт",
     img: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",

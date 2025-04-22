@@ -93,7 +93,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
   );
 
   return (
-    <Flex gap={6} justifyContent={"space-between"}>
+    <Flex gap={6}>
       <Box>
         <Heading size="md" mb={15}>
           Заявки по сферам
@@ -110,7 +110,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
           </PieChart>
         </ResponsiveContainer>
       </Box>
-      <Box mb={6} ref={wrapperRef}>
+      {/* <Box mb={6} ref={wrapperRef}>
       <Heading size="md" mb={5}>Динамика заявок</Heading>
         <Flex justify="space-between" mb={4}>
           <Box position="relative" width="300px">
@@ -169,7 +169,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
             />
           </LineChart>
         </ResponsiveContainer>
-      </Box>
+      </Box> */}
       <Box>
         <Heading size="md" mb={15}>
           Заявки по статусу
