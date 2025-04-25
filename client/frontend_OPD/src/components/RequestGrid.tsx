@@ -50,7 +50,6 @@ const mockBuildings: Building[] = [
 export const RequestGrid = ({ allRequests, isLoading}: {
   allRequests: Request[];
   isLoading: boolean;
-  showRequests: boolean;
 }) => {
   const { open, onOpen, onClose } = useDisclosure();
   const [selectedRequest, setSelectedRequest] = useState<Request | null>(null);

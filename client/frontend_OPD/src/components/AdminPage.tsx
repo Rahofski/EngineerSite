@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../App";
-import { Text, Stack, Box, Heading, Button, Flex } from "@chakra-ui/react";
-import { RequestItem } from "./RequestItem";
-import { AdminPanel } from "./AdminPanel"; // Панель управления инженерами
+import { Text, Box, Heading, Flex } from "@chakra-ui/react";
+//import { RequestItem } from "./RequestItem";
+//import { AdminPanel } from "./AdminPanel"; // Панель управления инженерами
 
 export type Request = {
   _id: number;

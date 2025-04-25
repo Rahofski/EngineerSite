@@ -3,7 +3,14 @@ import { Box, Heading, Flex, Input} from "@chakra-ui/react";
 import { Request } from "./AdminPage";
 import { useState, useRef, useEffect } from "react";
 
-const COLORS = ["#0088FE", "#FFBB28", "#FF8042", "#A020F0", "#DC143C"];
+const COLORS = [
+  "#723097",  // RGB 114 72 151 (первый блок)
+  "#373062",  // HEX 373062 (второй блок)
+  "#3AA935",  // HEX 3a a9 35 (третий блок)
+  "#56965B",  // HEX 56 96 5b (четвёртый блок)
+  "#F39869",  // RGB 243 152 105 (пятый блок)
+  "#DB4928"   // HEX da 49 27 (шестой блок)
+];
 
 export const FIELD_NAMES: Record<number, string> = {
   0: "Все",
