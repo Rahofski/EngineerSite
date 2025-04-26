@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../App";
-import { Text, Stack, Box, Heading, Button, Flex } from "@chakra-ui/react";
-import { RequestItem } from "./RequestItem";
-import { AdminPanel } from "./AdminPanel"; // Панель управления инженерами
+import { Text, Box, Heading, Flex } from "@chakra-ui/react";
+//import { RequestItem } from "./RequestItem";
+//import { AdminPanel } from "./AdminPanel"; // Панель управления инженерами
 
 export type Request = {
   _id: number;
@@ -41,7 +41,7 @@ const mockRequests: Request[] = [
   {
     _id: 3,
     building_id: 2,
-    field_id: 0,
+    field_id: 6,
     user_id: 0,
     description: "Сломан лифт",
     img: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",
@@ -52,6 +52,7 @@ const mockRequests: Request[] = [
 
 import { RequestStats } from "./RequestStats";
 import { Header } from "./Header";
+import { RequestGrid } from "./RequestGrid";
 
 export const AdminPage = () => {
     const [showRequests, setShowRequests] = useState(false);
@@ -88,10 +89,9 @@ export const AdminPage = () => {
   const allRequests = requests || []; // Используем тестовые данные, если запрос не удался
 
   
-  return (
-    <>
-        <Header/>
-      
+    return (
+      <>
+      <Header/>
       <Flex p={6} gap={10}>
         {/* Левая часть: Диаграммы и заявки */}
         <Box flex="2">
@@ -103,21 +103,20 @@ export const AdminPage = () => {
           </Text>
   
           {/* Диаграммы */}
-          <RequestStats requests={allRequests} />
-  
-          {/* Кнопка для показа / скрытия заявок */}
-          <Button onClick={() => setShowRequests(!showRequests)} mt={6} mb={6}>
+          <Flex>
+            <RequestStats requests={allRequests} />
+
+            <RequestGrid allRequests={allRequests} isLoading={isLoading}/>
+          </Flex>
+          {/* <Button onClick={() => setShowRequests(!showRequests)} mt={6} mb={6}>
             {showRequests ? "Скрыть заявки" : "Показать заявки"}
           </Button>
   
-          {/* 🔥 Теперь "Загрузка..." появляется только если showRequests === true */}
           {showRequests && isLoading && (
             <Box textAlign="center" my={4}>
               <Text fontSize="xl">Загрузка...</Text>
             </Box>
           )}
-  
-          {/* Показываем заявки только если showRequests === true */}
           {showRequests && !isLoading && (
             <Stack gap={6}>
               {allRequests && allRequests.length > 0 ? (
@@ -134,13 +133,12 @@ export const AdminPage = () => {
                 <Text color="gray.500">Нет заявок</Text>
               )}
             </Stack>
-          )}
+          )} */}
         </Box>
-  
-        {/* Правая часть: Панель управления инженерами */}
-        <Box flex="1" bg="gray.100" p={6} borderRadius="md">
+        {/*<Box flex="1" bg="gray.100" p={6} borderRadius="md">
           <AdminPanel />
-        </Box>
+        </Box>*/}
       </Flex>
-      </>);
+      </>
+    );
   };

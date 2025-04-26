@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../App";
 import { Text, Stack, Box, Heading, Flex, SimpleGrid, Badge} from "@chakra-ui/react";
-import { useColorModeValue } from "@/components/ui/color-mode";
+import { primaryColor, secondaryColor, accentColor, bgColor, cardBg } from "./constants/colors";
 import { RequestItem } from "./RequestItem";
 import { Header } from "./Header"
 
@@ -47,7 +47,7 @@ const mockRequests: Request[] = [
   {
     _id: 3,
     building_id: 2,
-    field_id: 6,
+    field_id: 5,
     user_id: 0,
     description: "Сломан лифт",
     img: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",
@@ -88,18 +88,6 @@ export const RequestList = () => {
     },
   });
 
-  const primaryColor = "#0D4C8B"; // Основной синий
-  const secondaryColor = "#E31937"; // Красный
-  const accentColor = "#FFD200"; // Желтый
-  const lightBg = "#F5F5F5"; // Светлый фон
-  const darkBg = "#1A365D"; // Темный фон для темной темы
-
-  const bgColor = useColorModeValue(lightBg, darkBg);
-  const cardBg = useColorModeValue("white", "gray.800");
-  const headingColor = useColorModeValue(primaryColor, "white");
-
-  
-  //const borderColor = useColorModeValue("gray.200", "gray.600");
 
   if (error) {
     console.error("Error fetching requests:", error);
@@ -119,13 +107,13 @@ export const RequestList = () => {
 
   return (
     <Box p={4} bg={bgColor} minH="100vh">
-      {isLoading && (
+      {/* {isLoading && (
         <Box textAlign="center" my={4}>
           <Text fontSize="xl">Загрузка...</Text>
         </Box>
-      )}
+      )} */}
 
-      {!isLoading && (
+      {/*!isLoading && */(
         <Stack gap={8}>
           <Header/>
           {/* Статистика по заявкам */}
@@ -139,18 +127,7 @@ export const RequestList = () => {
               boxShadow="sm"
             >
               <Text fontSize="sm" color="gray.500">Свободные</Text>
-              <Heading size="lg" color={primaryColor}>{notTakenRequests.length}</Heading>
-            </Box>
-            <Box 
-              bg={cardBg} 
-              p={4} 
-              borderRadius="lg" 
-              borderTop="4px" 
-              borderColor={primaryColor}
-              boxShadow="sm"
-            >
-              <Text fontSize="sm" color="gray.500">В работе</Text>
-              <Heading size="lg" color={primaryColor}>{inProgressRequests.length}</Heading>
+              <Heading size="lg" color={secondaryColor}>{notTakenRequests.length}</Heading>
             </Box>
             <Box 
               bg={cardBg} 
@@ -158,6 +135,17 @@ export const RequestList = () => {
               borderRadius="lg" 
               borderTop="4px" 
               borderColor={accentColor}
+              boxShadow="sm"
+            >
+              <Text fontSize="sm" color="gray.500">В работе</Text>
+              <Heading size="lg" color={accentColor}>{inProgressRequests.length}</Heading>
+            </Box>
+            <Box 
+              bg={cardBg} 
+              p={4} 
+              borderRadius="lg" 
+              borderTop="4px" 
+              borderColor={primaryColor}
               boxShadow="sm"
             >
               <Text fontSize="sm" color="gray.500">Выполнено</Text>
@@ -176,13 +164,13 @@ export const RequestList = () => {
             { 
               title: "Заявки в работе", 
               requests: inProgressRequests, 
-              color: primaryColor,
+              color: accentColor,
               emptyText: "Нет заявок в работе" 
             },
             { 
               title: "Выполненные заявки", 
               requests: doneRequests, 
-              color: accentColor,
+              color: primaryColor,
               emptyText: "Нет выполненных заявок"
             }
           ].map((section) => (
@@ -195,7 +183,7 @@ export const RequestList = () => {
                   mr={3} 
                   borderRadius="full"
                 />
-                <Heading as="h2" size="md" color={headingColor}>
+                <Heading as="h2" size="md" color="black">
                   {section.title}
                 </Heading>
                 <Badge 

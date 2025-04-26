@@ -1,5 +1,5 @@
 import { Box, Button, Flex, Image, Text, Badge, Card, Heading, Stack } from "@chakra-ui/react";
-import { useColorModeValue } from "@/components/ui/color-mode";
+import { cardBg, textColor, timeColor, borderColor, darkPurple, darkGreen } from "./constants/colors";
 import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Request } from "./RequestList";
@@ -53,8 +53,8 @@ export const RequestItem = (
   // Цвета статусов в стиле СПбПУ
   const statusColors = {
     "not taken": secondaryColor, // Красный
-    "in progress": primaryColor, // Синий
-    "done": accentColor // Желтый
+    "in progress": accentColor, // Синий
+    "done": primaryColor // Желтый
   };
 
   const statusText = {
@@ -62,11 +62,6 @@ export const RequestItem = (
     "in progress": "В работе",
     "done": "Выполнена"
   };
-
-  const cardBg = useColorModeValue("white", "gray.800");
-  const textColor = useColorModeValue("gray.700", "gray.100");
-  const borderColor = useColorModeValue("gray.200", "gray.600");
-  const timeColor = useColorModeValue("gray.500", "gray.400");
 
   const { data: buildings, isError } = useQuery<Building[]>({
     queryKey: ["buildings"],
@@ -200,8 +195,10 @@ export const RequestItem = (
             variant={show ? "outline" : "solid"}
             onClick={() => setShow(!show)}
             size="sm"
-            color={primaryColor}
+            color={"white"}
             borderColor={primaryColor}
+            backgroundColor={darkGreen}
+            _hover={{ bg:  "white", color: primaryColor}}
           >
             {show ? "Скрыть фото" : "Показать фото"}
           </Button>
@@ -212,7 +209,7 @@ export const RequestItem = (
                 <Button 
                   bg={primaryColor}
                   color="white"
-                  _hover={{ bg: "#0a3a6b" }}
+                  _hover={{ bg:  darkPurple}}
                   size="sm" 
                   flex="1"
                   onClick={() => handleUpdateStatus("in progress")}
@@ -227,8 +224,8 @@ export const RequestItem = (
               <>
                 <Button 
                   bg={accentColor}
-                  color="gray.800"
-                  _hover={{ bg: "#e6c200" }}
+                  color="white"
+                  _hover={{ bg: darkPurple }}
                   size="sm" 
                   flex="1"
                   onClick={() => handleUpdateStatus("done")}

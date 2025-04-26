@@ -3,7 +3,14 @@ import { Box, Heading, Flex, Input} from "@chakra-ui/react";
 import { Request } from "./AdminPage";
 import { useState, useRef, useEffect } from "react";
 
-const COLORS = ["#0088FE", "#FFBB28", "#FF8042", "#A020F0", "#DC143C"];
+const COLORS = [
+  "#723097",  // RGB 114 72 151 (первый блок)
+  "#373062",  // HEX 373062 (второй блок)
+  "#3AA935",  // HEX 3a a9 35 (третий блок)
+  "#56965B",  // HEX 56 96 5b (четвёртый блок)
+  "#F39869",  // RGB 243 152 105 (пятый блок)
+  "#DB4928"   // HEX da 49 27 (шестой блок)
+];
 
 export const FIELD_NAMES: Record<number, string> = {
   0: "Все",
@@ -93,7 +100,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
   );
 
   return (
-    <Flex gap={6} justifyContent={"space-between"}>
+    <Flex gap={6}>
       <Box>
         <Heading size="md" mb={15}>
           Заявки по сферам
@@ -110,7 +117,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
           </PieChart>
         </ResponsiveContainer>
       </Box>
-      <Box mb={6} ref={wrapperRef}>
+      {/* <Box mb={6} ref={wrapperRef}>
       <Heading size="md" mb={5}>Динамика заявок</Heading>
         <Flex justify="space-between" mb={4}>
           <Box position="relative" width="300px">
@@ -169,7 +176,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
             />
           </LineChart>
         </ResponsiveContainer>
-      </Box>
+      </Box> */}
       <Box>
         <Heading size="md" mb={15}>
           Заявки по статусу

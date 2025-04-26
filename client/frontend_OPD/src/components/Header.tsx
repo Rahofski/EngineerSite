@@ -1,10 +1,9 @@
 import { Flex, Box, Heading, Text, Image } from "@chakra-ui/react";
-import { useColorModeValue } from "./ui/color-mode";
 import logo from './logo_vert.png';
+import { primaryColor } from "./constants/colors";
 export const Header = () => {
     
-    const primaryColor = "#0D4C8B"; // Основной синий
-    const headingColor = useColorModeValue(primaryColor, "white");
+    const headingColor = primaryColor; // Основной синий
     return (
         <Flex align="center" mb={4}>
         <Image 
