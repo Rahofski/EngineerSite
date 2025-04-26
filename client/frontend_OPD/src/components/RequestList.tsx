@@ -3,7 +3,8 @@ import { BASE_URL } from "../App";
 import { Text, Stack, Box, Heading, Flex, SimpleGrid, Badge} from "@chakra-ui/react";
 import { useColorModeValue } from "@/components/ui/color-mode";
 import { RequestItem } from "./RequestItem";
-import {Header} from "./Header"
+import { Header } from "./Header"
+
 export type Building = {
   _id: number;
   name: string;
@@ -78,7 +79,8 @@ export const RequestList = () => {
         if (!res.ok) {
           throw new Error(data.message || "Something went wrong");
         }
-        return data || [];
+        console.log(data)
+        return data.requests || [];
       } catch (error: any) {
         console.error("Error fetching requests:", error);
         throw error;

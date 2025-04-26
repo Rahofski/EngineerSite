@@ -33,7 +33,8 @@ const mockBuildings: Building[] = [
   },
 ];
 
-export const RequestItem = ({ 
+export const RequestItem = (
+  { 
   request,
   primaryColor,
   secondaryColor,

@@ -70,7 +70,7 @@ export const CardWithForm = () => {
   
       // В случае ошибки можно оставить редирект на "/request" по умолчанию
       setTimeout(() => {
-        navigate("/AdminPage");
+        navigate("/request");
       }, 1000);
     }
   };
