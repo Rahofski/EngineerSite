@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Request } from "./RequestList";
 import { BASE_URL } from "../App";
+import { mockBuildings } from "./mockData";
 
 export type Building = {
   _id: number;
@@ -11,27 +12,6 @@ export type Building = {
   address: string;
   type: string;
 };
-
-const mockBuildings: Building[] = [
-  {
-    _id: 0,
-    name: "6 общага",
-    address: "Хрыщева, 16",
-    type: "dorm",
-  },
-  {
-    _id: 1,
-    name: "11 корпус",
-    address: "ул. Гидротехников, 20",
-    type: "stud",
-  },
-  {
-    _id: 2,
-    name: "Главный корпус",
-    address: "ул. Политехническая, 29",
-    type: "stud",
-  },
-];
 
 export const RequestItem = ({ 
   request,
@@ -51,9 +31,9 @@ export const RequestItem = ({
 
   // Цвета статусов в стиле СПбПУ
   const statusColors = {
-    "not taken": secondaryColor, // Красный
-    "in progress": accentColor, // Синий
-    "done": primaryColor // Желтый
+    "not taken": secondaryColor,
+    "in progress": accentColor,
+    "done": primaryColor
   };
 
   const statusText = {

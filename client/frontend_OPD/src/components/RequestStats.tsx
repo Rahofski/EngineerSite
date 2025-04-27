@@ -2,6 +2,7 @@ import { PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer, CartesianGri
 import { Box, Heading, Flex, Input} from "@chakra-ui/react";
 import { Request } from "./AdminPage";
 import { useState, useRef, useEffect } from "react";
+import { accentColor, primaryColor, secondaryColor } from "./constants/colors";
 
 const COLORS = [
   "#723097",  // RGB 114 72 151 (первый блок)
@@ -10,6 +11,12 @@ const COLORS = [
   "#56965B",  // HEX 56 96 5b (четвёртый блок)
   "#F39869",  // RGB 243 152 105 (пятый блок)
   "#DB4928"   // HEX da 49 27 (шестой блок)
+];
+
+const STATUS_COLORS = [
+  accentColor,
+  primaryColor,
+  secondaryColor,
 ];
 
 export const FIELD_NAMES: Record<number, string> = {
@@ -52,7 +59,7 @@ const processDataByStatus = (requests: Request[]) => {
   return Object.keys(counts).map((key, index) => ({
     name: STATUS_NAMES[key],
     value: counts[key],
-    color: COLORS[index % COLORS.length],
+    color: STATUS_COLORS[index % COLORS.length],
   }));
 };
 
