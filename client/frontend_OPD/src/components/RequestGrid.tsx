@@ -8,7 +8,6 @@ import {
   Flex,
   Button,
   useDisclosure,
-  CloseButton,
   Heading,
   Input,
   HStack,
@@ -20,7 +19,7 @@ import { useQuery } from '@tanstack/react-query';
 import { Request } from './RequestList';
 import { BASE_URL } from '../App';
 import { FIELD_NAMES } from './RequestStats';
-import { secondaryColor, primaryColor, accentColor, darkGreen, darkPurple } from './constants/colors';
+import { secondaryColor, primaryColor, accentColor, darkPurple } from './constants/colors';
 import { mockBuildings } from './mockData';
 import {Building} from "./RequestList"
 

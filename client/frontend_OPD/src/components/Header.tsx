@@ -1,6 +1,5 @@
-import { Flex, Box, Heading, Text, Image } from "@chakra-ui/react";
+import { Flex, Box, Heading, Image } from "@chakra-ui/react";
 import logo from './logo_vert.svg';
-import { primaryColor } from "./constants/colors";
 export const Header = () => {
     
     return (

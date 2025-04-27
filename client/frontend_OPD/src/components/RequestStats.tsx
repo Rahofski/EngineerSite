@@ -211,54 +211,9 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
   const barChartData = processBarChartData();
 
   return (
-    <Flex direction="row" gap={6} mb={10}>
-        <Box>
-          <Heading size="md" mb={4}>Заявки по сферам</Heading>
-          <ResponsiveContainer width={300} height={300}>
-            <PieChart>
-              <Pie 
-                data={fieldData} 
-                dataKey="value" 
-                nameKey="name" 
-                cx="50%" 
-                cy="50%" 
-                outerRadius={100}
-              >
-                {fieldData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </Box>
-
-        <Box>
-          <Heading size="md" mb={4}>Заявки по статусу</Heading>
-          <ResponsiveContainer width={300} height={300}>
-            <PieChart>
-              <Pie 
-                data={statusData} 
-                dataKey="value" 
-                nameKey="name" 
-                cx="50%" 
-                cy="50%" 
-                outerRadius={100}
-              >
-                {statusData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={entry.color} />
-                ))}
-              </Pie>
-              <Tooltip />
-              <Legend />
-            </PieChart>
-          </ResponsiveContainer>
-        </Box>
-
-        <Box>
+    <Flex gap={20} alignItems={"flex-start"}>
+      <Box>
         <Heading size="md" mb={4}>Динамика заявок</Heading>
-
         <ResponsiveContainer width="100%" height={400}>
           <BarChart data={barChartData}>
             <CartesianGrid strokeDasharray="3 3" opacity={0.5} />
@@ -285,6 +240,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
             />
           </BarChart>
         </ResponsiveContainer>
+        <Box>
         <VStack align="stretch" mb={4} gap={4}>
           <HStack gap={4}>
             <Box ref={categoryRef} position="relative">
@@ -366,7 +322,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
               </Button>
             </HStack>
           </HStack>
-
+          
           {showCustomDatePicker && (
             <HStack gap={4} align="flex-end">
             <VStack align="start">
@@ -399,6 +355,77 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
           )}
         </VStack>
       </Box>
+      </Box>
+      <Flex gap={6} mb={10}>
+  {/* Первый график */}
+  <Box>
+    <Heading size="md" mb={4}>Заявки по сферам</Heading>
+    <Box width="300px" height="200px" position="relative">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie 
+            data={fieldData} 
+            dataKey="value" 
+            nameKey="name" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={90}
+          >
+            {fieldData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </Box>
+
+    {/* Своя легенда */}
+    <Box mt={4}>
+      {fieldData.map((item, index) => (
+        <Flex align="center" mb={2} key={index}>
+          <Box w="12px" h="12px" borderRadius="full" bg={item.color} mr={2} />
+          <Text fontSize="m">{item.name}</Text>
+        </Flex>
+      ))}
+    </Box>
+  </Box>
+
+  {/* Второй график */}
+  <Box>
+    <Heading size="md" mb={4}>Заявки по статусу</Heading>
+    <Box width="300px" height="200px" position="relative">
+      <ResponsiveContainer width="100%" height="100%">
+        <PieChart>
+          <Pie 
+            data={statusData} 
+            dataKey="value" 
+            nameKey="name" 
+            cx="50%" 
+            cy="50%" 
+            outerRadius={90}
+          >
+            {statusData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.color} />
+            ))}
+          </Pie>
+          <Tooltip />
+        </PieChart>
+      </ResponsiveContainer>
+    </Box>
+
+    {/* Своя легенда */}
+    <Box mt={4}>
+      {statusData.map((item, index) => (
+        <Flex align="center" mb={2} key={index}>
+          <Box w="12px" h="12px" borderRadius="full" bg={item.color} mr={2} />
+          <Text fontSize="m">{item.name}</Text>
+        </Flex>
+      ))}
+    </Box>
+  </Box>
+</Flex>
+
     </Flex>
   );
 };

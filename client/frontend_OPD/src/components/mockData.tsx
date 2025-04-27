@@ -39,6 +39,42 @@ export const mockRequests: Request[] = [
         time: "09:15 04.26.2025"
       },
       {
+        request_id: 12,
+        building_id: 1,
+        field_id: 3,
+        additional_text: "Протечка трубы в подвале",
+        photos: "https://static19.tgcnt.ru/posts/_0/f7/f71018d04759977b551e565434c3276e.jpg",
+        status: "in progress",
+        time: "12:30 04.27.2025",
+      },
+      {
+        request_id: 13,
+        building_id: 2,
+        field_id: 5,
+        additional_text: "Не работает освещение в подъезде",
+        photos: "https://i.pinimg.com/736x/b2/0b/3a/b20b3adce236bcf18185dae624357524.jpg",
+        status: "done",
+        time: "15:00 02.03.2025",
+      },
+      {
+        request_id: 14,
+        building_id: 2,
+        field_id: 6,
+        additional_text: "Сломан лифт",
+        photos: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",
+        status: "not taken",
+        time: "15:00 04.27.2025",
+      },
+      {
+          request_id: 15,
+          building_id: 0,
+          field_id: 7,
+          additional_text: "Треснутое окно в коридоре 3 этажа",
+          photos: "https://example.com/glass1.jpg",
+          status: "not taken",
+          time: "09:15 04.26.2025"
+        },
+      {
         request_id: 5,
         building_id: 1,
         field_id: 1,
