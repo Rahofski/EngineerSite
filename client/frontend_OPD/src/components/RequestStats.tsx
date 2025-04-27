@@ -7,7 +7,7 @@ import {
   Input, useDisclosure, Icon
 } from "@chakra-ui/react";
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
-import { Request } from "./AdminPage";
+import { Request } from "./RequestList";
 import { useState, useRef, useEffect } from "react";
 import { accentColor, primaryColor, secondaryColor } from "./constants/colors";
 
