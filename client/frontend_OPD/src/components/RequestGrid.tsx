@@ -22,14 +22,7 @@ import { BASE_URL } from '../App';
 import { FIELD_NAMES } from './RequestStats';
 import { secondaryColor, primaryColor, accentColor, darkGreen, darkPurple } from './constants/colors';
 import { mockBuildings } from './mockData';
-
-export type Building = {
-  _id: number;
-  name: string;
-  address: string;
-  type: string;
-};
-
+import {Building} from "./RequestList"
 
 const statusText = {
   "not taken": "Не взята",
@@ -322,7 +315,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
           {filteredRequests && filteredRequests.length > 0 ? (
             filteredRequests.map((request) => (
               <Box
-                key={request._id}
+                key={request.request_id}
                 bg="white"
                 borderRadius="md"
                 boxShadow="md"
@@ -340,7 +333,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                 }}
               >
                 <Flex alignItems={"center"} padding={"5px 50px"} gap={150}>
-                  <Text w={10}>#{request._id}</Text>
+                  <Text w={10}>#{request.request_id}</Text>
                   <Text fontSize="l" fontWeight="bold" width={"200px"}>
                     {FIELD_NAMES[request.field_id]}
                   </Text>
@@ -349,9 +342,9 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                   </Text>
                   <Text w={10}>{formatDate(request.time)}</Text>
                   <Text>
-                    {buildingsList.find(b => b._id === request.building_id)?.name || "Неизвестное здание"}
-                    {buildingsList.find(b => b._id === request.building_id)?.address && 
-                      `, ${buildingsList.find(b => b._id === request.building_id)?.address}`}
+                    {buildingsList.find(b => b.building_id === request.building_id)?.building_name || "Неизвестное здание"}
+                    {buildingsList.find(b => b.building_id === request.building_id)?.address && 
+                      `, ${buildingsList.find(b => b.building_id === request.building_id)?.address}`}
                   </Text>
                 </Flex>
               </Box>
@@ -389,7 +382,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
           >
             <Flex justify="space-between" align="center" mb={4}>
               <Heading size="md" color={secondaryColor}>
-                Заявка #{selectedRequest._id}
+                Заявка #{selectedRequest.request_id}
               </Heading>
             </Flex>
 
@@ -397,9 +390,9 @@ export const RequestGrid = ({ allRequests, isLoading}: {
               <Flex>
                 <Text fontWeight="bold" minWidth="120px">Здание:</Text>
                 <Text>
-                  {buildingsList.find(b => b._id === selectedRequest.building_id)?.name || "Неизвестное здание"}
-                  {buildingsList.find(b => b._id === selectedRequest.building_id)?.address && 
-                    `, ${buildingsList.find(b => b._id === selectedRequest.building_id)?.address}`}
+                  {buildingsList.find(b => b.building_id === selectedRequest.building_id)?.building_name || "Неизвестное здание"}
+                  {buildingsList.find(b => b.building_id === selectedRequest.building_id)?.address && 
+                    `, ${buildingsList.find(b => b.building_id === selectedRequest.building_id)?.address}`}
                 </Text>
               </Flex>
 
@@ -422,14 +415,14 @@ export const RequestGrid = ({ allRequests, isLoading}: {
 
               <Flex direction="column">
                 <Text fontWeight="bold">Описание:</Text>
-                <Text whiteSpace="pre-wrap">{selectedRequest.description}</Text>
+                <Text whiteSpace="pre-wrap">{selectedRequest.additional_text}</Text>
               </Flex>
 
-              {selectedRequest.img && (
+              {selectedRequest.photos && (
                 <Flex direction="column">
                   <Text fontWeight="bold">Фото:</Text>
                   <Image 
-                    src={selectedRequest.img} 
+                    src={selectedRequest.photos} 
                     alt="Прикрепленное фото" 
                     maxH="200px"
                     borderRadius="md"
