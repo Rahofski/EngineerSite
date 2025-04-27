@@ -10,7 +10,7 @@ export const mockRequests: Request[] = [
       description: "Протечка трубы в подвале",
       img: "https://static19.tgcnt.ru/posts/_0/f7/f71018d04759977b551e565434c3276e.jpg",
       status: "in progress",
-      time: "12:30 01.03.2025",
+      time: "12:30 04.27.2025",
     },
     {
       _id: 2,
@@ -30,7 +30,7 @@ export const mockRequests: Request[] = [
       description: "Сломан лифт",
       img: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",
       status: "not taken",
-      time: "15:00 02.03.2025",
+      time: "15:00 04.27.2025",
     },
     {
         _id: 4,
@@ -40,7 +40,7 @@ export const mockRequests: Request[] = [
         description: "Треснутое окно в коридоре 3 этажа",
         img: "https://example.com/glass1.jpg",
         status: "not taken",
-        time: "09:15 03.03.2025"
+        time: "09:15 04.26.2025"
       },
       {
         _id: 5,
@@ -50,7 +50,7 @@ export const mockRequests: Request[] = [
         description: "Забит слив в раковине",
         img: "https://example.com/sink1.jpg",
         status: "in progress",
-        time: "11:40 03.03.2025"
+        time: "11:40 04.27.2025"
       },
       {
         _id: 6,
@@ -80,7 +80,7 @@ export const mockRequests: Request[] = [
         description: "Не работает розетка в кабинете 205",
         img: "https://example.com/socket1.jpg",
         status: "not taken",
-        time: "10:10 05.03.2025"
+        time: "10:10 04.27.2025"
       },
       {
         _id: 9,
@@ -110,7 +110,7 @@ export const mockRequests: Request[] = [
         description: "Отклеиваются обои в коридоре",
         img: "https://example.com/wallpaper1.jpg",
         status: "not taken",
-        time: "08:20 07.03.2025"
+        time: "08:20 04.27.2025"
       }
   ];
 
