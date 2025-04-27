@@ -26,8 +26,3 @@ func CheckStatus(status string) error {
 
 	return fmt.Errorf("invalid status")
 }
-
-type StatusRequest struct {
-	RequestID int    `json:"request_id"`
-	Status    string `json:"status"`
-}

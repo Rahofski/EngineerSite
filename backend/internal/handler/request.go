@@ -6,6 +6,7 @@ import (
 	"backend/internal/service"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"strconv"
 )
 
 type RequestHandler struct {
@@ -75,22 +76,29 @@ func (h *RequestHandler) UpdateStatus(c *gin.Context) {
 		return
 	}
 
-	var statusReq models.StatusRequest
-	if err := c.ShouldBindJSON(&statusReq); err != nil {
+	requestID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request ID"})
+		return
+	}
+
+	var status string
+
+	if err := c.ShouldBindJSON(&status); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if statusReq.RequestID == 0 || statusReq.Status == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Both ID and Status are required"})
+	if status == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Status is required"})
 		return
 	}
 
-	err = h.service.UpdateStatus(statusReq.RequestID, statusReq.Status)
+	err = h.service.UpdateStatus(requestID, status)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status changed": statusReq.Status})
+	c.JSON(http.StatusOK, gin.H{"status changed": status})
 }
