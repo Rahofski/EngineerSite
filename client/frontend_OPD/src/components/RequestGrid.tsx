@@ -212,7 +212,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
       mb={5}
     >
       <VStack align="stretch" gap={4}>
-        <Heading size="md" color={secondaryColor}>
+        <Heading size="md" color={"black"}>
           Фильтры
         </Heading>
         

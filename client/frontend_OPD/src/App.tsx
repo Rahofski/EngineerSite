@@ -11,7 +11,7 @@ function App() {
   return (
     <Router>
       <Provider>
-      <ThemeToggleButton />
+      {/*<ThemeToggleButton />*/}
           <Routes>
             {/* Главная страница */}
             <Route path="/" element={

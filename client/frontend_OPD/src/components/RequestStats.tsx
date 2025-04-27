@@ -9,7 +9,7 @@ import {
 import { ChevronDownIcon, ChevronUpIcon } from "@chakra-ui/icons";
 import { Request } from "./RequestList";
 import { useState, useRef, useEffect } from "react";
-import { accentColor, primaryColor, secondaryColor } from "./constants/colors";
+import { accentColor, darkGreen, darkPurple, primaryColor, secondaryColor } from "./constants/colors";
 
 const COLORS = [
   "#723097", "#373062", "#3AA935", "#56965B", "#F39869", "#DB4928"
@@ -248,6 +248,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
                 onClick={onToggleCategory}
                 minW="200px"
                 justifyContent="space-between"
+                bgColor={darkPurple}
               >
                 {`Сфера: `}
                 {FIELD_NAMES[selectedCategory]}
@@ -278,7 +279,8 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
                           setSelectedCategory(Number(id));
                           onCloseCategory();
                         }}
-                        bg={selectedCategory === Number(id) ? "blue.50" : "transparent"}
+                        bg={selectedCategory === Number(id) ? darkPurple : "transparent"}
+                        color={selectedCategory === Number(id) ? "white": "black"}
                         _hover={{ bg: "blue.50" }}
                       >
                         {name}
@@ -293,30 +295,35 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
               <Button 
                 onClick={() => handlePeriodChange("day")}
                 variant={timePeriod === "day" ? "solid" : "outline"}
+                bgColor={timePeriod === "day" ? darkPurple : "outline"}
               >
                 День
               </Button>
               <Button 
                 onClick={() => handlePeriodChange("week")}
                 variant={timePeriod === "week" ? "solid" : "outline"}
+                bgColor={timePeriod === "week" ? darkPurple : "outline"}
               >
                 Неделя
               </Button>
               <Button 
                 onClick={() => handlePeriodChange("month")}
                 variant={timePeriod === "month" ? "solid" : "outline"}
+                bgColor={timePeriod === "month" ? darkPurple : "outline"}
               >
                 Месяц
               </Button>
               <Button 
                 onClick={() => handlePeriodChange("year")}
                 variant={timePeriod === "year" ? "solid" : "outline"}
+                bgColor={timePeriod === "year" ? darkPurple : "outline"}
               >
                 Год
               </Button>
               <Button 
                 onClick={() => handlePeriodChange("custom")}
                 variant={timePeriod === "custom" ? "solid" : "outline"}
+                bgColor={timePeriod === "custom" ? darkPurple : "outline"}
               >
                 Произвольный
               </Button>
@@ -348,6 +355,7 @@ export const RequestStats = ({ requests }: { requests: Request[] }) => {
               onClick={handleApplyCustomDate}
               disabled={!startDate || !endDate}
               colorScheme="blue"
+              bgColor={secondaryColor}
             >
               Применить
             </Button>
