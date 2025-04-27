@@ -54,7 +54,7 @@ func main() {
 	g.POST("api/request/add", requestHandler.AddRequest)
 	g.GET("api/requests", requestHandler.GetRequests)
 	g.PATCH("api/request/:id", requestHandler.UpdateStatus)
-	// g.GET("api/status/:id", requestHandler.GetStatus)
+	g.GET("api/status/:id", requestHandler.GetStatus)
 
 	g.Run("0.0.0.0:8080")
 }

@@ -48,3 +48,12 @@ func (s *RequestService) UpdateStatus(requestID int, status string) error {
 
 	return nil
 }
+
+func (s *RequestService) GetStatus(requestID int) (string, error) {
+
+	status, err := s.requestRepo.GetStatus(requestID)
+	if err != nil {
+		return "", err
+	}
+	return status, nil
+}

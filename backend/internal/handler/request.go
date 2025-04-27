@@ -31,7 +31,7 @@ func (h *RequestHandler) AddRequest(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"id": id})
+	c.JSON(http.StatusOK, gin.H{"request_id": id})
 }
 
 func (h *RequestHandler) GetRequests(c *gin.Context) {
@@ -101,4 +101,26 @@ func (h *RequestHandler) UpdateStatus(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status changed": status})
+}
+
+func (h *RequestHandler) GetStatus(c *gin.Context) {
+
+	requestID, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request ID"})
+		return
+	}
+
+	if requestID <= 0 {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request ID"})
+		return
+	}
+
+	status, err := h.service.GetStatus(requestID)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": status})
 }

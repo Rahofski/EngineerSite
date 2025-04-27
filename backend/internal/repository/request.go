@@ -117,3 +117,17 @@ func (r *RequestRepository) ChangeStatus(requestID int, status string) error {
 
 	return nil
 }
+
+func (r *RequestRepository) GetStatus(requestID int) (string, error) {
+
+	query := "SELECT status FROM requests WHERE requestID = $1"
+	row := r.db.QueryRow(query, requestID)
+
+	var status string
+	err := row.Scan(&status)
+	if err != nil {
+		return "", fmt.Errorf("failed to get status for request with ID %d: %w", requestID, err)
+	}
+
+	return status, nil
+}
