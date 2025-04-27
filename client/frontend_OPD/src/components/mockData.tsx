@@ -32,6 +32,86 @@ export const mockRequests: Request[] = [
       status: "not taken",
       time: "15:00 02.03.2025",
     },
+    {
+        _id: 4,
+        building_id: 0,
+        field_id: 7,
+        user_id: 2,
+        description: "Треснутое окно в коридоре 3 этажа",
+        img: "https://example.com/glass1.jpg",
+        status: "not taken",
+        time: "09:15 03.03.2025"
+      },
+      {
+        _id: 5,
+        building_id: 1,
+        field_id: 1,
+        user_id: 1,
+        description: "Забит слив в раковине",
+        img: "https://example.com/sink1.jpg",
+        status: "in progress",
+        time: "11:40 03.03.2025"
+      },
+      {
+        _id: 6,
+        building_id: 2,
+        field_id: 7,
+        user_id: 0,
+        description: "Не закрывается входная дверь",
+        img: "https://example.com/door1.jpg",
+        status: "done",
+        time: "14:20 04.03.2025"
+      },
+      {
+        _id: 7,
+        building_id: 0,
+        field_id: 6,
+        user_id: 2,
+        description: "Протекает крыша в холле",
+        img: "https://example.com/roof1.jpg",
+        status: "in progress",
+        time: "16:45 04.03.2025"
+      },
+      {
+        _id: 8,
+        building_id: 1,
+        field_id: 2,
+        user_id: 1,
+        description: "Не работает розетка в кабинете 205",
+        img: "https://example.com/socket1.jpg",
+        status: "not taken",
+        time: "10:10 05.03.2025"
+      },
+      {
+        _id: 9,
+        building_id: 2,
+        field_id: 6,
+        user_id: 0,
+        description: "Сломанная ступенька на лестнице",
+        img: "https://example.com/stairs1.jpg",
+        status: "done",
+        time: "13:30 05.03.2025"
+      },
+      {
+        _id: 10,
+        building_id: 0,
+        field_id: 1,
+        user_id: 2,
+        description: "Подтекает батарея в комнате 312",
+        img: "https://example.com/radiator1.jpg",
+        status: "in progress",
+        time: "15:55 06.03.2025"
+      },
+      {
+        _id: 11,
+        building_id: 1,
+        field_id: 7,
+        user_id: 1,
+        description: "Отклеиваются обои в коридоре",
+        img: "https://example.com/wallpaper1.jpg",
+        status: "not taken",
+        time: "08:20 07.03.2025"
+      }
   ];
 
 export const mockBuildings: Building[] = [

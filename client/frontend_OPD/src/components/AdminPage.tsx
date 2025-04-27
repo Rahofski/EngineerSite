@@ -52,7 +52,7 @@ export const AdminPage = () => {
       console.error("Error fetching requests:", error);
     }
 
-  const allRequests = requests || []; // Используем тестовые данные, если запрос не удался
+  const allRequests = requests || mockRequests; // Используем тестовые данные, если запрос не удался
 
   
     return (

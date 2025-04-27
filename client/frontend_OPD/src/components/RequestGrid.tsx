@@ -225,17 +225,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
         </Heading>
         
         <Flex gap={4} wrap="wrap" alignItems={"center"}>
-          {/* Фильтр по статусу */}
-          <DropdownFilter
-            label="Статус"
-            isOpen={isStatusOpen}
-            onToggle={() => setIsStatusOpen(!isStatusOpen)}
-            options={Object.keys(statusText)}
-            selectedValue={statusFilter}
-            onSelect={setStatusFilter}
-            renderOption={(status) => statusText[status as keyof typeof statusText]}
-          />
-          
+
           {/* Фильтр по сфере */}
           <DropdownFilter
             label="Сфера"
@@ -245,6 +235,17 @@ export const RequestGrid = ({ allRequests, isLoading}: {
             selectedValue={fieldFilter}
             onSelect={setFieldFilter}
             renderOption={(fieldId) => FIELD_NAMES[fieldId] || 'Другое'}
+          />
+
+          {/* Фильтр по статусу */}
+          <DropdownFilter
+            label="Статус"
+            isOpen={isStatusOpen}
+            onToggle={() => setIsStatusOpen(!isStatusOpen)}
+            options={Object.keys(statusText)}
+            selectedValue={statusFilter}
+            onSelect={setStatusFilter}
+            renderOption={(status) => statusText[status as keyof typeof statusText]}
           />
           
           {/* Фильтр по дате */}
@@ -298,11 +299,11 @@ export const RequestGrid = ({ allRequests, isLoading}: {
         mb={5}
       >
         <Flex alignItems={"center"} padding={"5px 50px"} gap={120}>
-          <Text>Номер</Text>
+          <Text mr={5}>Номер</Text>
           <Text fontSize="l" width={"200px"} mr={7}>
             Сфера
           </Text>
-          <Text width={"200px"} mr={7}>
+          <Text width={"100px"} mr={7}>
             Статус
           </Text>
           <Text mr={9}>Дата</Text>
@@ -339,14 +340,14 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                 }}
               >
                 <Flex alignItems={"center"} padding={"5px 50px"} gap={150}>
-                  <Text>#{request._id}</Text>
+                  <Text w={10}>#{request._id}</Text>
                   <Text fontSize="l" fontWeight="bold" width={"200px"}>
                     {FIELD_NAMES[request.field_id]}
                   </Text>
-                  <Text width={"200px"}>
+                  <Text width={"100px"}>
                     {statusText[request.status]}
                   </Text>
-                  <Text>{formatDate(request.time)}</Text>
+                  <Text w={10}>{formatDate(request.time)}</Text>
                   <Text>
                     {buildingsList.find(b => b._id === request.building_id)?.name || "Неизвестное здание"}
                     {buildingsList.find(b => b._id === request.building_id)?.address && 
@@ -390,7 +391,6 @@ export const RequestGrid = ({ allRequests, isLoading}: {
               <Heading size="md" color={secondaryColor}>
                 Заявка #{selectedRequest._id}
               </Heading>
-              <CloseButton onClick={onClose} />
             </Flex>
 
             <Stack gap={4}>
