@@ -96,12 +96,7 @@ func (h *UserHandler) RemoveUser(c *gin.Context) {
 		return
 	}
 
-	var email string
-	if err := c.ShouldBindJSON(&email); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "no email provided"})
-		return
-	}
-
+	email := c.Param("email")
 	if email == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "no email provided"})
 		return
