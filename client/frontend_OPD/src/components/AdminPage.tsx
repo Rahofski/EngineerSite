@@ -6,19 +6,9 @@ import { RequestStats } from "./RequestStats";
 import { Header } from "./Header";
 import { RequestGrid } from "./RequestGrid";
 import { mockRequests } from "./mockData";
+import {Request} from "./RequestList"
 //import { RequestItem } from "./RequestItem";
 //import { AdminPanel } from "./AdminPanel"; // Панель управления инженерами
-
-export type Request = {
-  _id: number;
-  building_id: number;
-  field_id: number;
-  user_id: number;
-  description: string;
-  img: string;
-  status: "in progress" | "not taken" | "done";
-  time: string;
-};
 
 export const AdminPage = () => {
     const [showRequests, setShowRequests] = useState(false);

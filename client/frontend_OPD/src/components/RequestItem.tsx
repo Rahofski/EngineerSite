@@ -5,13 +5,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Request } from "./RequestList";
 import { BASE_URL } from "../App";
 import { mockBuildings } from "./mockData";
-
-export type Building = {
-  _id: number;
-  name: string;
-  address: string;
-  type: string;
-};
+import { Building } from "./RequestList";
 
 export const RequestItem = (
   { 
@@ -70,11 +64,11 @@ export const RequestItem = (
   });
 
   const buildingsList = isError ? mockBuildings : buildings || [];
-  const building = buildingsList.find((b) => b._id === request.building_id);
+  const building = buildingsList.find((b) => b.building_id === request.building_id);
 
   const updateStatusMutation = useMutation({
     mutationFn: async (newStatus: string) => {
-      const res = await fetch(`${BASE_URL}/requests/${request._id}`, {
+      const res = await fetch(`${BASE_URL}/requests/${request.request_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -100,8 +94,6 @@ export const RequestItem = (
     }
   };
 
-  
-
   return (
     <Card.Root 
       bg={cardBg} 
@@ -121,7 +113,7 @@ export const RequestItem = (
         <Stack gap={3}>
           <Flex justify="space-between" align="center">
             <Heading size="md" color={primaryColor}>
-              Заявка #{request._id}
+              Заявка #{request.request_id}
             </Heading>
             <Badge 
               bg={statusColors[request.status]} 
@@ -139,7 +131,7 @@ export const RequestItem = (
               <Box as="span" color={primaryColor}>Здание:</Box>
             </Text>
             <Text color={textColor}>
-              {building ? `${building.name}, ${building.address}` : "Неизвестное здание"}
+              {building ? `${building.building_name}, ${building.address}` : "Неизвестное здание"}
             </Text>
           </Box>
 
@@ -147,7 +139,7 @@ export const RequestItem = (
             <Text fontWeight="bold" color={textColor}>
               <Box as="span" color={primaryColor}>Описание:</Box>
             </Text>
-            <Text color={textColor}>{request.description}</Text>
+            <Text color={textColor}>{request.additional_text}</Text>
           </Box>
 
           <Text fontSize="sm" color={timeColor}>
@@ -157,7 +149,7 @@ export const RequestItem = (
           {show && (
             <Box mt={2}>
               <Image 
-                src={request.img} 
+                src={request.photos} 
                 alt="Фото проблемы" 
                 borderRadius="md"
                 maxH="200px"

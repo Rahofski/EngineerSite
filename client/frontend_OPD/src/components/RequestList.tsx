@@ -5,19 +5,20 @@ import { primaryColor, secondaryColor, accentColor, bgColor, cardBg } from "./co
 import { RequestItem } from "./RequestItem";
 import {Header} from "./Header"
 import { mockRequests } from "./mockData";
+
 export type Building = {
-  _id: number;
-  name: string;
+  building_id: number;
+  building_name: string;
   address: string;
-  type: string;
+  building_type: string;
 };
 
 export type Request = {
-  _id: number;
+  request_id: number;
   building_id: number;
   field_id: number;
-  description: string;
-  img: string;
+  additional_text: string;
+  photos: string;
   status: "not taken" | "in progress" | "done";
   time: string;
 };
@@ -168,7 +169,7 @@ export const RequestList = () => {
                 <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
                   {section.requests.map((request) => (
                     <RequestItem 
-                      key={request._id} 
+                      key={request.request_id} 
                       request={request} 
                       primaryColor={primaryColor}
                       secondaryColor={secondaryColor}
