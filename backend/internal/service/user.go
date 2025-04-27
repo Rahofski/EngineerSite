@@ -13,7 +13,7 @@ type UserService struct {
 	Secret   string
 }
 
-func NewLoginService(userRepo *repository.UserRepository, secret string) *UserService {
+func NewUserService(userRepo *repository.UserRepository, secret string) *UserService {
 	return &UserService{userRepo, secret}
 }
 

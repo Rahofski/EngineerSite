@@ -13,7 +13,7 @@ type UserHandler struct {
 }
 
 func NewUserHandler(userRepo *repository.UserRepository, secret string) *UserHandler {
-	return &UserHandler{service.NewLoginService(userRepo, secret)}
+	return &UserHandler{service.NewUserService(userRepo, secret)}
 }
 
 func (h *UserHandler) Login(c *gin.Context) {

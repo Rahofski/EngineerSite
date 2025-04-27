@@ -39,18 +39,22 @@ func main() {
 	g := gin.Default()
 
 	g.Use(cors.New(cors.Config{
-		AllowOrigins: []string{"*"},
-		AllowMethods: []string{"GET", "POST", "OPTIONS"},
-		AllowHeaders: []string{"Content-Type"},
+		AllowOrigins:     []string{"http://localhost:5173", "http://localhost:5173/AdminPage"},
+		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
 	}))
 
+	// g.Use(cors.Default())
+
 	g.POST("api/user/login", userHandler.Login)
+	g.POST("api/user/add", userHandler.AddUser)
+	g.DELETE("api/user/:email", userHandler.RemoveUser)
 	g.GET("api/buildings", buildingHandler.GetBuildings)
 	g.POST("api/request/add", requestHandler.AddRequest)
 	g.GET("api/requests", requestHandler.GetRequests)
-	g.POST("api/request/status", requestHandler.UpdateStatus)
-	g.POST("api/user/add", userHandler.AddUser)
-	g.POST("api/user/remove", userHandler.RemoveUser)
+	g.PATCH("api/request/:id", requestHandler.UpdateStatus)
+	// g.GET("api/status/:id", requestHandler.GetStatus)
 
 	g.Run("0.0.0.0:8080")
 }

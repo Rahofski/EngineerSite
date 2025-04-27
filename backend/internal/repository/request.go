@@ -3,10 +3,8 @@ package repository
 import (
 	"backend/internal/models"
 	"database/sql"
-	"encoding/json"
 	"fmt"
 	"github.com/lib/pq"
-	"time"
 )
 
 type RequestRepository struct {
@@ -37,7 +35,7 @@ func (r *RequestRepository) AddRequest(request *models.Request) error {
 		request.BuildingID,
 		request.FieldID,
 		// request.UserID,
-		request.Time.Format(time.RFC3339),
+		request.Time, //.Format(time.RFC3339),
 		request.Status,
 		pq.Array(request.Photos),
 		request.TextInfo,
@@ -73,25 +71,26 @@ func (r *RequestRepository) GetRequests(fieldID int) ([]models.Request, error) {
 	for rows.Next() {
 
 		var req models.Request
-		var photosJSON string
+		// var photosJSON []byte //string
 
 		err = rows.Scan(
 			&req.RequestID,
 			&req.BuildingID,
 			&req.FieldID,
+			//&req.UserID,
 			&req.Time,
 			&req.Status,
-			&photosJSON,
+			&req.Photos,
 			&req.TextInfo,
 		)
 
 		if err != nil {
-			return nil, fmt.Errorf("error scanning buildings: %w", err)
+			return nil, fmt.Errorf("error scanning requests: %w", err)
 		}
 
-		if err := json.Unmarshal([]byte(photosJSON), &req.Photos); err != nil {
-			return nil, fmt.Errorf("error unmarshalling photos: %w", err)
-		}
+		//if err := json.Unmarshal([]byte(photosJSON), &req.Photos); err != nil {
+		//	return nil, fmt.Errorf("error unmarshalling photos: %w", err)
+		//}
 
 		res = append(res, req)
 	}
