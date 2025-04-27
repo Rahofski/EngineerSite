@@ -13,7 +13,8 @@ export type Building = {
   type: string;
 };
 
-export const RequestItem = ({ 
+export const RequestItem = (
+  { 
   request,
   primaryColor,
   secondaryColor,

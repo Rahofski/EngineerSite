@@ -22,20 +22,24 @@ export type Request = {
 
 export const AdminPage = () => {
     const [showRequests, setShowRequests] = useState(false);
-  
+    const token = localStorage.getItem("token"); // Получаем токен из localStorage
     const { data: requests, isLoading, error } = useQuery<Request[]>({
       queryKey: ["requests"],
       queryFn: async () => {
         try {
           const res = await fetch(BASE_URL + "/requests", {
             method: "GET",
-            headers: { "Content-Type": "application/json" },
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`, // Добавляем токен в заголовок
+            },
           });
           const data = await res.json();
           if (!res.ok) {
+            console.log(data)
             throw new Error(data.message || "Something went wrong");
           }
-          return data || [];
+          return data.requests || [];
         } catch (error: any) {
           console.error("Error fetching requests:", error);
           throw error;
@@ -48,7 +52,7 @@ export const AdminPage = () => {
       console.error("Error fetching requests:", error);
     }
 
-  const allRequests = requests || mockRequests;
+  const allRequests = requests || []; // Используем тестовые данные, если запрос не удался
 
   
     return (

@@ -4,7 +4,6 @@ import { Text, Stack, Box, Heading, Flex, SimpleGrid, Badge} from "@chakra-ui/re
 import { primaryColor, secondaryColor, accentColor, bgColor, cardBg } from "./constants/colors";
 import { RequestItem } from "./RequestItem";
 import {Header} from "./Header"
-import { mockRequests } from "./mockData";
 export type Building = {
   _id: number;
   name: string;
@@ -46,7 +45,8 @@ export const RequestList = () => {
         if (!res.ok) {
           throw new Error(data.message || "Something went wrong");
         }
-        return data || [];
+        console.log(data)
+        return data.requests || [];
       } catch (error: any) {
         console.error("Error fetching requests:", error);
         throw error;
