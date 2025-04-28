@@ -5,7 +5,7 @@ import { AdminPage } from "./components/AdminPage";
 import { Provider } from "./components/ui/provider"
 import { ThemeToggleButton } from "./components/ThemeToggleButton";
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-export const BASE_URL = import.meta.env.MODE === "development" ? "http://25.24.120.207:8080/api" : "/api";
+export const BASE_URL = import.meta.env.MODE === "development" ? "http://localhost:8080/api" : "/api";
 
 function App() {
   return (

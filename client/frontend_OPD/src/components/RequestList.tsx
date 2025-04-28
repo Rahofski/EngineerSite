@@ -47,7 +47,7 @@ export const RequestList = () => {
           throw new Error(data.message || "Something went wrong");
         }
         console.log(data)
-        return data.requests || mockRequests;
+        return data.requests || []//mockRequests;
       } catch (error: any) {
         console.error("Error fetching requests:", error);
         throw error;
@@ -60,13 +60,13 @@ export const RequestList = () => {
     console.error("Error fetching requests:", error);
   }
 
-  const notTakenRequests = (requests || mockRequests).filter(
+  const notTakenRequests = (requests || [] /*mockRequests*/).filter(
     (request) => request.status === "not taken"
   );
-  const inProgressRequests = (requests || mockRequests).filter(
+  const inProgressRequests = (requests || [] /*mockRequests*/).filter(
     (request) => request.status === "in progress"
   );
-  const doneRequests = (requests || mockRequests).filter(
+  const doneRequests = (requests || [] /*mockRequests*/).filter(
     (request) => request.status === "done"
   );
 

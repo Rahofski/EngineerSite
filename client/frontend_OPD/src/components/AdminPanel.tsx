@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Heading, Input, Button, Stack, Text, Icon } from "@chakra-ui/react";
+import { Box, Heading, Input, Button, Stack, Text, Icon, Wrap, WrapItem, Badge } from "@chakra-ui/react";
 import { BASE_URL } from "../App";
 import { CloseIcon } from "@chakra-ui/icons";
 import { accentColor, darkPurple } from "./constants/colors";
@@ -8,18 +8,31 @@ interface AdminPanelProps {
   onClose: () => void;
 }
 
+const fields = [
+  { id: 1, name: "Водоснабжение" },
+  { id: 2, name: "Электроснабжение" },
+  { id: 3, name: "Газоснабжение" },
+  { id: 4, name: "Администрирование" },
+  { id: 5, name: "Техника" },
+  { id: 6, name: "Другое" },
+  { id: 7, name: "Плотничество" }
+];
+
 export const AdminPanel = ({ onClose }: AdminPanelProps) => {
   const [email, setEmail] = useState("");
   const token = localStorage.getItem("token");
   const [name, setFio] = useState("");
-
   const [password, setPassword] = useState("");
-  const [field_id, setField_id] = useState<number>(0); // Явно указываем тип number
-
+  const [field_id, setField_id] = useState<number | null>(null);
   const [emailToRemove, setEmailToDelete] = useState("");
   const [message, setMessage] = useState("");
 
   const handleAddEngineer = async () => {
+    if (!field_id) {
+      setMessage("❌ Выберите сферу деятельности");
+      return;
+    }
+
     try {
       const response = await fetch(`${BASE_URL}/user/add`, {
         method: "POST",
@@ -27,7 +40,7 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ email, password, field_id, name }), // field_id уже number
+        body: JSON.stringify({ email, password, field_id, name }),
       });
 
       const data = await response.json();
@@ -40,8 +53,8 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
       setMessage("✅ Инженер успешно добавлен!");
       setEmail("");
       setPassword("");
-      setField_id(0); // Сбрасываем на 0
-      setFio("")
+      setField_id(null);
+      setFio("");
     } catch (error) {
       setMessage("❌ Ошибка при добавлении инженера");
     }
@@ -54,9 +67,8 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
-
         },
-        body: JSON.stringify({ emailToRemove }), // field_id уже number
+        body: JSON.stringify({ emailToRemove }),
       });
 
       if (!response.ok) {
@@ -71,7 +83,7 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
   };
 
   return (
-    <Box h="600px">
+    <Box h="600px" overflowY="auto">
       <Button onClick={onClose} position="absolute" top={2} right={2} bgColor={darkPurple}>
         <Icon as={CloseIcon} />
       </Button>
@@ -92,25 +104,50 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
           />
           <Input 
             placeholder="Пароль" 
+            type="password"
             value={password} 
             onChange={(e) => setPassword(e.target.value)} 
             mt={2} 
           />
           <Input 
-            placeholder="ID сферы" 
-            type="number" // Добавляем type="number" для числового ввода
-            value={field_id} 
-            onChange={(e) => setField_id(Number(e.target.value))} // Преобразуем в число
-            mt={2} 
-          />
-          <Input 
             placeholder="ФИО" 
             value={name} 
-            onChange={(e) => setFio(e.target.value)} // Преобразуем в число
+            onChange={(e) => setFio(e.target.value)}
             mt={2} 
           />
 
-          <Button colorScheme="green" mt={2} onClick={handleAddEngineer} bgColor={darkPurple}>
+          <Text mt={3} mb={2} fontWeight="medium">
+            Выберите сферу деятельности:
+          </Text>
+          
+          <Wrap gap={2}>
+            {fields.map((field) => (
+              <WrapItem key={field.id}>
+                <Badge 
+                  px={3} 
+                  py={1} 
+                  borderRadius="full"
+                  cursor="pointer"
+                  bg={field_id === field.id ? accentColor : "gray.100"}
+                  color={field_id === field.id ? "white" : "gray.800"}
+                  onClick={() => setField_id(field.id)}
+                  _hover={{
+                    bg: field_id === field.id ? accentColor : "gray.200"
+                  }}
+                >
+                  {field.name}
+                </Badge>
+              </WrapItem>
+            ))}
+          </Wrap>
+
+          <Button 
+            colorScheme="green" 
+            mt={4} 
+            onClick={handleAddEngineer} 
+            bgColor={darkPurple}
+            disabled={!field_id}
+          >
             Добавить
           </Button>
         </Box>
@@ -132,7 +169,7 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
       </Stack>
 
       {message && (
-        <Text mt={4} color="gray.700" textAlign="center">
+        <Text mt={4} color={message.startsWith("✅") ? "green.500" : "red.500"} textAlign="center">
           {message}
         </Text>
       )}

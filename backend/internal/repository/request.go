@@ -77,10 +77,10 @@ func (r *RequestRepository) GetRequests(fieldID int) ([]models.Request, error) {
 			&req.BuildingID,
 			&req.FieldID,
 			//&req.UserID,
-			&req.Time,
+			&req.TextInfo,
 			&req.Status,
 			&req.Photos,
-			&req.TextInfo,
+			&req.Time,
 		)
 
 		if err != nil {

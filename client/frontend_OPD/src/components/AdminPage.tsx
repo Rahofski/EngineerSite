@@ -58,7 +58,7 @@ export const AdminPage = () => {
       console.error("Error fetching requests:", error);
     }
 
-    const allRequests = requests || mockRequests;
+  const allRequests = requests || [];//ockRequests;
 
     return (
       <>

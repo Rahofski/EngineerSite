@@ -144,7 +144,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
     },
   });
 
-  const buildingsList = isError ? mockBuildings : buildings || [];
+  const buildingsList = isError ? []/*mockBuildings*/ : buildings || [];
 
   const getStatusColor = (status: Request['status']) => {
     switch (status) {

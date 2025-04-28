@@ -142,11 +142,11 @@ export const RequestItem = (
             <Text fontWeight="bold" color={textColor}>
               <Box as="span" color={primaryColor}>Описание:</Box>
             </Text>
-            <Text color={textColor}>{request.additional_text}</Text>
+            <Text color={textColor}>{request.time}</Text>
           </Box>
 
           <Text fontSize="sm" color={timeColor}>
-            Создано: {request.time}
+             {request.additional_text}
           </Text>
 
           {show && (
