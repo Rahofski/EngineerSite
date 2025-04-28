@@ -1,8 +1,14 @@
 import { useState } from "react";
-import { Box, Heading, Input, Button, Stack, Text } from "@chakra-ui/react";
+import { Box, Heading, Input, Button, Stack, Text, Icon } from "@chakra-ui/react";
 import { BASE_URL } from "../App";
+import { CloseIcon } from "@chakra-ui/icons";
+import { accentColor, darkPurple } from "./constants/colors";
 
-export const AdminPanel = () => {
+interface AdminPanelProps {
+  onClose: () => void;
+}
+
+export const AdminPanel = ({ onClose }: AdminPanelProps) =>{
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [emailToDelete, setEmailToDelete] = useState("");
@@ -53,6 +59,9 @@ export const AdminPanel = () => {
 
   return (
     <Box h="600px">
+      <Button onClick={onClose} position="absolute" top={2} right={2} bgColor={darkPurple}>
+        <Icon as={CloseIcon}/>
+      </Button>
       <Heading as="h2" size="md" mb={4} textAlign="center">
         Управление инженерами
       </Heading>
@@ -65,7 +74,7 @@ export const AdminPanel = () => {
           </Heading>
           <Input placeholder="Почта" value={email} onChange={(e) => setEmail(e.target.value)} />
           <Input placeholder="Логин" value={username} onChange={(e) => setUsername(e.target.value)} mt={2} />
-          <Button colorScheme="green" mt={2} onClick={handleAddEngineer}>
+          <Button colorScheme="green" mt={2} onClick={handleAddEngineer} bgColor={darkPurple}>
             Добавить
           </Button>
         </Box>
@@ -76,7 +85,7 @@ export const AdminPanel = () => {
             Удалить инженера
           </Heading>
           <Input placeholder="Почта" value={emailToDelete} onChange={(e) => setEmailToDelete(e.target.value)} />
-          <Button colorScheme="red" mt={2} onClick={handleDeleteEngineer}>
+          <Button colorScheme="red" mt={2} onClick={handleDeleteEngineer} bgColor={accentColor}>
             Удалить
           </Button>
         </Box>
@@ -90,3 +99,7 @@ export const AdminPanel = () => {
     </Box>
   );
 };
+function useOutsideClick(arg0: { ref: any; handler: () => void; }) {
+  throw new Error("Function not implemented.");
+}
+

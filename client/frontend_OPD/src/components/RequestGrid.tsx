@@ -431,7 +431,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
             </Stack>
 
             <Flex justify="flex-end" mt={6}>
-              <Button colorScheme="blue" onClick={onClose}>
+              <Button colorScheme="blue" onClick={onClose} bgColor={darkPurple}>
                 Закрыть
               </Button>
             </Flex>
