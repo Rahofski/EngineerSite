@@ -25,7 +25,7 @@ func (h *UserHandler) Login(c *gin.Context) {
 	}
 
 	if loginReq.Email == "" || loginReq.Password == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "both email and password are required"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "both Email and password are required"})
 		return
 	}
 
@@ -63,8 +63,8 @@ func (h *UserHandler) AddUser(c *gin.Context) {
 		return
 	}
 
-	if addReq.Email == "" || addReq.Password == "" || addReq.Name == "" || addReq.FieldID == 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "all fields are required"})
+	if addReq.Email == "" || addReq.Password == "" || addReq.Name == "" || !(addReq.FieldID >= 1 && addReq.FieldID <= 7) {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "some fields are empty or field_id is invalid"})
 		return
 	}
 
@@ -96,13 +96,20 @@ func (h *UserHandler) RemoveUser(c *gin.Context) {
 		return
 	}
 
-	email := c.Param("email")
-	if email == "" {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "no email provided"})
+	var e struct {
+		Email string `json:"emailToRemove"`
+	}
+	if err := c.ShouldBindJSON(&e); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	err = h.service.RemoveUser(email)
+	if e.Email == "" {
+		c.JSON(http.StatusBadRequest, gin.H{"error": "no Email provided"})
+		return
+	}
+
+	err = h.service.RemoveUser(e.Email)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
