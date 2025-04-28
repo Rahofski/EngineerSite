@@ -45,7 +45,7 @@ export const mockRequests: Request[] = [
         additional_text: "Протечка трубы в подвале",
         photos: "https://static19.tgcnt.ru/posts/_0/f7/f71018d04759977b551e565434c3276e.jpg",
         status: "in progress",
-        time: "12:30 04.27.2025",
+        time: "12:30 04.28.2025",
       },
       {
         request_id: 13,
@@ -63,7 +63,7 @@ export const mockRequests: Request[] = [
         additional_text: "Сломан лифт",
         photos: "https://avatars.mds.yandex.net/get-altay/3522550/2a00000174ef9bbb46794d1f51e8086ccae6/XXL_height",
         status: "not taken",
-        time: "15:00 04.27.2025",
+        time: "15:00 04.28.2025",
       },
       {
           request_id: 15,

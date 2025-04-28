@@ -16,7 +16,7 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) =>{
 
   const handleAddEngineer = async () => {
     try {
-      const response = await fetch(BASE_URL + "/engineers/add", {
+      const response = await fetch(`${BASE_URL}/api/user/add`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -38,12 +38,11 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) =>{
 
   const handleDeleteEngineer = async () => {
     try {
-      const response = await fetch(BASE_URL + "/engineers/delete", {
+      const response = await fetch(`${BASE_URL}/api/user/${emailToDelete}`, {
         method: "DELETE",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: emailToDelete }),
       });
 
       if (!response.ok) {
@@ -73,7 +72,7 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) =>{
             Добавить инженера
           </Heading>
           <Input placeholder="Почта" value={email} onChange={(e) => setEmail(e.target.value)} />
-          <Input placeholder="Логин" value={username} onChange={(e) => setUsername(e.target.value)} mt={2} />
+          <Input placeholder="Пароль  " value={username} onChange={(e) => setUsername(e.target.value)} mt={2} />
           <Button colorScheme="green" mt={2} onClick={handleAddEngineer} bgColor={darkPurple}>
             Добавить
           </Button>
@@ -99,7 +98,4 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) =>{
     </Box>
   );
 };
-function useOutsideClick(arg0: { ref: any; handler: () => void; }) {
-  throw new Error("Function not implemented.");
-}
 
