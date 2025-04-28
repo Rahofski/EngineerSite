@@ -50,7 +50,7 @@ func (r *UserRepository) AddUser(addReq *models.AddRequest) (int, error) {
 			field_id,
 			password_hash,
 			email,
-			name
+		    name
 		) VALUES ($1, $2, $3, $4)
 		RETURNING user_id
 		`
@@ -62,7 +62,7 @@ func (r *UserRepository) AddUser(addReq *models.AddRequest) (int, error) {
 		hashedPassword,
 		addReq.Email,
 		addReq.Name,
-	).Scan(userID)
+	).Scan(&userID)
 
 	if err != nil {
 		return -1, fmt.Errorf("unable to add user: %w", err)

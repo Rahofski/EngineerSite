@@ -4,7 +4,6 @@ import (
 	"backend/internal/models"
 	"database/sql"
 	"fmt"
-	"github.com/lib/pq"
 )
 
 type RequestRepository struct {
@@ -37,7 +36,7 @@ func (r *RequestRepository) AddRequest(request *models.Request) error {
 		// request.UserID,
 		request.Time, //.Format(time.RFC3339),
 		request.Status,
-		pq.Array(request.Photos),
+		request.Photos,
 		request.TextInfo,
 	).Scan(&request.RequestID)
 
@@ -100,7 +99,7 @@ func (r *RequestRepository) GetRequests(fieldID int) ([]models.Request, error) {
 
 func (r *RequestRepository) ChangeStatus(requestID int, status string) error {
 
-	query := "UPDATE requests SET status = $1 WHERE requestID = $2"
+	query := "UPDATE requests SET status = $1 WHERE request_id = $2"
 	res, err := r.db.Exec(query, status, requestID)
 	if err != nil {
 		return fmt.Errorf("failed to update request status: %v", err)
@@ -120,7 +119,7 @@ func (r *RequestRepository) ChangeStatus(requestID int, status string) error {
 
 func (r *RequestRepository) GetStatus(requestID int) (string, error) {
 
-	query := "SELECT status FROM requests WHERE requestID = $1"
+	query := "SELECT status FROM requests WHERE request_id = $1"
 	row := r.db.QueryRow(query, requestID)
 
 	var status string
