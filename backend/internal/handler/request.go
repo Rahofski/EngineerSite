@@ -82,25 +82,28 @@ func (h *RequestHandler) UpdateStatus(c *gin.Context) {
 		return
 	}
 
-	var status string
+	//var status string
+	var status struct {
+		Status string `json:"status"`
+	}
 
 	if err := c.ShouldBindJSON(&status); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
-	if status == "" {
+	if status.Status == "" {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Status is required"})
 		return
 	}
 
-	err = h.service.UpdateStatus(requestID, status)
+	err = h.service.UpdateStatus(requestID, status.Status)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status changed": status})
+	c.JSON(http.StatusOK, gin.H{"status changed": status.Status})
 }
 
 func (h *RequestHandler) GetStatus(c *gin.Context) {
@@ -112,7 +115,7 @@ func (h *RequestHandler) GetStatus(c *gin.Context) {
 	}
 
 	if requestID <= 0 {
-		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid request ID"})
+		c.JSON(http.StatusBadRequest, gin.H{"error": "Negative request ID"})
 		return
 	}
 
