@@ -68,16 +68,19 @@ export const RequestItem = (
 
   const updateStatusMutation = useMutation({
     mutationFn: async (newStatus: string) => {
-      const res = await fetch(`${BASE_URL}/requests/${request.request_id}`, {
+      const res = await fetch(`${BASE_URL}/request/${request.request_id}`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
-          Authtorization: `Bearer ${token}`, 
+          Authorization: `Bearer ${token}`, 
         },
         body: JSON.stringify({ status: newStatus }),
       });
 
+      const data = await res.json()
+
       if (!res.ok) {
+        console.log(data)
         throw new Error("Ошибка обновления статуса");
       }
     },

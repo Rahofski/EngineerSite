@@ -34,7 +34,7 @@ export const RequestList = () => {
           throw new Error("No token provided"); // Проверяем наличие токена
       }
 
-        const res = await fetch(BASE_URL + "api/requests", {
+        const res = await fetch(BASE_URL + "/requests", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",

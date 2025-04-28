@@ -127,7 +127,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
     queryFn: async () => {
       try {
         if (!token) throw new Error("No token provided");
-        const res = await fetch(BASE_URL + "api/buildings", {
+        const res = await fetch(BASE_URL + "/buildings", {
           method: "GET",
           headers: {
             "Content-Type": "application/json",
