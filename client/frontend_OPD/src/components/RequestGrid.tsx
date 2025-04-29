@@ -29,6 +29,16 @@ const statusText = {
   "done": "Выполнена"
 };
 
+const formatAddress = (address: string | undefined) => {
+  if (!address) return "";
+  
+  // Удаляем "Санкт-Петербург, Россия" из адреса
+  return address
+    .replace(/, Санкт-Петербург/g, '')
+    .replace(/, Россия/g, '')
+    .trim();
+};
+
 export const RequestGrid = ({ allRequests, isLoading}: {
   allRequests: Request[];
   isLoading: boolean;
@@ -343,7 +353,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                   <Text>
                     {buildingsList.find(b => b.building_id === request.building_id)?.building_name || "Неизвестное здание"}
                     {buildingsList.find(b => b.building_id === request.building_id)?.address && 
-                      `, ${buildingsList.find(b => b.building_id === request.building_id)?.address}`}
+                      `, ${formatAddress(buildingsList.find(b => b.building_id === request.building_id)?.address)}`}
                   </Text>
                 </Flex>
               </Box>
@@ -391,7 +401,7 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                 <Text>
                   {buildingsList.find(b => b.building_id === selectedRequest.building_id)?.building_name || "Неизвестное здание"}
                   {buildingsList.find(b => b.building_id === selectedRequest.building_id)?.address && 
-                    `, ${buildingsList.find(b => b.building_id === selectedRequest.building_id)?.address}`}
+                    `, ${formatAddress(buildingsList.find(b => b.building_id === selectedRequest.building_id)?.address)}`}
                 </Text>
               </Flex>
 
