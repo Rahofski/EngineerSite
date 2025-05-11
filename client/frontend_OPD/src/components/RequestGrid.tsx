@@ -14,7 +14,7 @@ import {
   VStack,
   Icon
 } from '@chakra-ui/react';
-import { ChevronDownIcon, ChevronUpIcon } from '@chakra-ui/icons';
+import { ChevronDownIcon, ChevronUpIcon, CloseIcon } from '@chakra-ui/icons';
 import { useQuery } from '@tanstack/react-query';
 import { Request } from './RequestList';
 import { BASE_URL } from '../App';
@@ -389,10 +389,13 @@ export const RequestGrid = ({ allRequests, isLoading}: {
             onClick={(e) => e.stopPropagation()}
             boxShadow="xl"
           >
-            <Flex justify="space-between" align="center" mb={4}>
+            <Flex justify="space-between" alignItems={"center"} mb={10}>
               <Heading size="md" color={secondaryColor}>
                 Заявка #{selectedRequest.request_id}
               </Heading>
+              <Button onClick={onClose} position="relative" bgColor={darkPurple}>
+                      <Icon as={CloseIcon} boxSize={4}/>
+              </Button>
             </Flex>
 
             <Stack gap={4}>
@@ -439,12 +442,6 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                 </Flex>
               )}
             </Stack>
-
-            <Flex justify="flex-end" mt={6}>
-              <Button colorScheme="blue" onClick={onClose} bgColor={darkPurple}>
-                Закрыть
-              </Button>
-            </Flex>
           </Box>
         </Box>
       )}

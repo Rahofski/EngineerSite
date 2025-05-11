@@ -85,7 +85,7 @@ export const AdminPanel = ({ onClose }: AdminPanelProps) => {
   return (
     <Box h="600px" overflowY="auto">
       <Button onClick={onClose} position="absolute" top={2} right={2} bgColor={darkPurple}>
-        <Icon as={CloseIcon} />
+        <Icon as={CloseIcon} boxSize={4}/>
       </Button>
       <Heading as="h2" size="md" mb={4} textAlign="center">
         Управление инженерами
