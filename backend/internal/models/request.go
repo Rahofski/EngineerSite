@@ -9,10 +9,10 @@ type Request struct {
 	BuildingID int `json:"building_id"`
 	FieldID    int `json:"field_id"`
 	//UserID     int       `json:"user_id"` // лишнее поле, его не учитываем
-	Time     string `json:"time"`
+	TextInfo string `json:"additional_text"`
 	Status   string `json:"status"`
 	Photos   string `json:"photos"`
-	TextInfo string `json:"additional_text"`
+	Time     string `json:"time"`
 }
 
 func CheckStatus(status string) error {

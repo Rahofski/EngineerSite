@@ -31,6 +31,15 @@ export const RequestItem = (
     "done": primaryColor
   };
 
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    return `${day}.${month} ${hours}:${minutes}`;
+};
+
   const statusText = {
     "not taken": "Свободна",
     "in progress": "В работе",
@@ -142,11 +151,11 @@ export const RequestItem = (
             <Text fontWeight="bold" color={textColor}>
               <Box as="span" color={primaryColor}>Описание:</Box>
             </Text>
-            <Text color={textColor}>{request.time}</Text>
+            <Text color={textColor}>{request.additional_text}</Text>
           </Box>
 
           <Text fontSize="sm" color={timeColor}>
-             {request.additional_text}
+             {formatDate(request.time)}
           </Text>
 
           {show && (

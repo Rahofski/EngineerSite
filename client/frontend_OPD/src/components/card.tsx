@@ -82,10 +82,10 @@ export const CardWithForm = () => {
         maxW="md"
         colorPalette={"green"}
         justifyContent={"center"}
-        border="15px solid"
-        borderColor="gray.300"
-        borderRadius="lg"
-        boxShadow="md"
+        //border="15px solid"
+        //borderColor="gray.300"
+        //borderRadius="lg"
+        //boxShadow="md"
         p={4}
         color={"#F1F5F9"}
         bg="linear-gradient(to bottom, #34D399, #064E3B)" // Градиент от светло-зеленого до зеленого
