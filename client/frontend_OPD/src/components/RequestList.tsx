@@ -168,7 +168,7 @@ export const RequestList = () => {
               </Flex>
               
               {section.requests.length > 0 ? (
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4} align="start">
+                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
                   {section.requests.map((request) => (
                     <RequestItem 
                       key={request.request_id} 
