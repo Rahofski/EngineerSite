@@ -1,16 +1,14 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef} from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BASE_URL } from "../App";
-import { Text, Box, Heading, Flex, useDisclosure, Button, Icon } from "@chakra-ui/react";
+import { Text, Box, Heading, Flex, useDisclosure, Button} from "@chakra-ui/react";
 import { RequestStats } from "./RequestStats";
 import { Header } from "./Header";
 import { RequestGrid } from "./RequestGrid";
-import { mockRequests } from "./mockData";
 import {Request} from "./RequestList"
 import { AdminPanel } from "./AdminPanel";
 import { darkPurple } from "./constants/colors";
-import { SettingsIcon, ChevronLeftIcon, ChevronDownIcon} from "@chakra-ui/icons";
-
+import icon from './icon.png';
 export const AdminPage = () => {
     const { open: isPanelOpen, onOpen: openPanel, onClose: closePanel } = useDisclosure();
     const token = localStorage.getItem("token");
@@ -81,7 +79,7 @@ export const AdminPage = () => {
                 bgColor={darkPurple}
                 mb={4}
               >
-                <Icon as={ChevronDownIcon} boxSize={8}/>
+                <img src={icon} alt="панель" width={40}/>
               </Button>
             </Flex>
             <Box pb={10}>

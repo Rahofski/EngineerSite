@@ -1,27 +1,27 @@
 import { Box, Button, Flex, Image, Text, Badge, Card, Heading, Stack } from "@chakra-ui/react";
 import { cardBg, textColor, timeColor, borderColor, darkPurple, darkGreen } from "./constants/colors";
-import { useState } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Request } from "./RequestList";
 import { BASE_URL } from "../App";
 import { mockBuildings } from "./mockData";
 import { Building } from "./RequestList";
 
-export const RequestItem = (
-  { 
+export const RequestItem = ({
   request,
   primaryColor,
   secondaryColor,
-  accentColor
+  accentColor,
+  show,
+  toggleShow
 }: { 
   request: Request;
   primaryColor: string;
   secondaryColor: string;
   accentColor: string;
-  }) => {
-    const token = localStorage.getItem("token"); // Получаем токен из localStorage
-  
-  const [show, setShow] = useState(false);
+  show: boolean;
+  toggleShow: () => void;
+}) => {
+  const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
 
   // Цвета статусов в стиле СПбПУ
@@ -105,9 +105,11 @@ export const RequestItem = (
       console.error("Ошибка при обновлении статуса:", error);
     }
   };
+  console.log("Render RequestItem", request.request_id, "show:", show);
 
   return (
     <Card.Root 
+      alignSelf="start"
       bg={cardBg} 
       border="1px" 
       borderColor={borderColor}
@@ -177,7 +179,10 @@ export const RequestItem = (
           <Button 
             colorScheme="blue" 
             variant={show ? "outline" : "solid"}
-            onClick={() => setShow(!show)}
+            onClick={() => {
+              console.log("Click photo toggle for:", request.request_id);
+              toggleShow();
+            }}
             size="sm"
             color={"white"}
             borderColor={primaryColor}

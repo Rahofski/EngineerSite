@@ -20,7 +20,6 @@ import { Request } from './RequestList';
 import { BASE_URL } from '../App';
 import { FIELD_NAMES } from './RequestStats';
 import { secondaryColor, primaryColor, accentColor, darkPurple } from './constants/colors';
-import { mockBuildings } from './mockData';
 import {Building} from "./RequestList"
 
 const statusText = {
@@ -436,7 +435,6 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                   <Image 
                     src={selectedRequest.photos} 
                     alt="Прикрепленное фото" 
-                    maxH="200px"
                     borderRadius="md"
                   />
                 </Flex>

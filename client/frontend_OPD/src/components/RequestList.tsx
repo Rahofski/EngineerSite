@@ -4,6 +4,7 @@ import { Text, Stack, Box, Heading, Flex, SimpleGrid, Badge} from "@chakra-ui/re
 import { primaryColor, secondaryColor, accentColor, bgColor, cardBg } from "./constants/colors";
 import { RequestItem } from "./RequestItem";
 import {Header} from "./Header"
+import { useState } from "react";
 import { mockRequests } from "./mockData";
 
 export type Building = {
@@ -25,7 +26,7 @@ export type Request = {
 
 export const RequestList = () => {
   const token = localStorage.getItem("token"); // Получаем токен из localStorage
-
+  const [showPhotoRequestId, setShowPhotoRequestId] = useState<number | null>(null);
   const { data: requests, isLoading, error } = useQuery<Request[]>({
     queryKey: ["requests"],
     queryFn: async () => {
@@ -71,6 +72,7 @@ export const RequestList = () => {
   );
 
   
+  console.log("Request IDs:", (requests || []).map(r => r.request_id));
 
   return (
     <Box p={4} bg={bgColor} minH="100vh">
@@ -166,7 +168,7 @@ export const RequestList = () => {
               </Flex>
               
               {section.requests.length > 0 ? (
-                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4}>
+                <SimpleGrid columns={{ base: 1, md: 2, lg: 3 }} gap={4} align="start">
                   {section.requests.map((request) => (
                     <RequestItem 
                       key={request.request_id} 
@@ -174,6 +176,12 @@ export const RequestList = () => {
                       primaryColor={primaryColor}
                       secondaryColor={secondaryColor}
                       accentColor={accentColor}
+                      show={showPhotoRequestId === request.request_id}
+                      toggleShow={() =>
+                        setShowPhotoRequestId((prev) =>
+                          prev === request.request_id ? null : request.request_id
+                        )
+                      }
                     />
                   ))}
                 </SimpleGrid>
