@@ -319,44 +319,50 @@ export const RequestGrid = ({ allRequests, isLoading}: {
       )}
 
       {!isLoading && (
-        <Stack gap={2} >
+        <Stack gap={2}>
           {filteredRequests && filteredRequests.length > 0 ? (
-            filteredRequests.map((request) => (
-              <Box
-                key={request.request_id}
-                bg="white"
-                borderRadius="md"
-                boxShadow="md"
-                borderWidth="1px"
-                borderColor="gray.200"
-                cursor="pointer"
-                onClick={() => openDetails(request)}
-                position="relative"
-                overflow="hidden"
-                _hover={{ 
-                  boxShadow: "xl", 
-                  transform: "translateY(-2px)", 
-                  transition: "all 0.2s",
-                  borderColor: primaryColor
-                }}
-              >
-                <Flex alignItems={"center"} padding={"5px 50px"} gap={150}>
-                  <Text w={10}>#{request.request_id}</Text>
-                  <Text fontSize="l" fontWeight="bold" width={"200px"}>
-                    {FIELD_NAMES[request.field_id]}
-                  </Text>
-                  <Text width={"100px"}>
-                    {statusText[request.status]}
-                  </Text>
-                  <Text w={10}>{formatDate(request.time)}</Text>
-                  <Text>
-                    {buildingsList.find(b => b.building_id === request.building_id)?.building_name || "Неизвестное здание"}
-                    {buildingsList.find(b => b.building_id === request.building_id)?.address && 
-                      `, ${formatAddress(buildingsList.find(b => b.building_id === request.building_id)?.address)}`}
-                  </Text>
-                </Flex>
-              </Box>
-            ))
+            [...filteredRequests]
+              .sort((a, b) => {
+        const dateA = new Date(a.time).getTime();
+        const dateB = new Date(b.time).getTime();
+        return dateB - dateA;
+      })
+              .map((request) => (
+                <Box
+                  key={request.request_id}
+                  bg="white"
+                  borderRadius="md"
+                  boxShadow="md"
+                  borderWidth="1px"
+                  borderColor="gray.200"
+                  cursor="pointer"
+                  onClick={() => openDetails(request)}
+                  position="relative"
+                  overflow="hidden"
+                  _hover={{ 
+                    boxShadow: "xl", 
+                    transform: "translateY(-2px)", 
+                    transition: "all 0.2s",
+                    borderColor: primaryColor
+                  }}
+                >
+                  <Flex alignItems={"center"} padding={"5px 50px"} gap={150}>
+                    <Text w={10}>#{request.request_id}</Text>
+                    <Text fontSize="l" fontWeight="bold" width={"200px"}>
+                      {FIELD_NAMES[request.field_id]}
+                    </Text>
+                    <Text width={"100px"}>
+                      {statusText[request.status]}
+                    </Text>
+                    <Text w={10}>{formatDate(request.time)}</Text>
+                    <Text>
+                      {buildingsList.find(b => b.building_id === request.building_id)?.building_name || "Неизвестное здание"}
+                      {buildingsList.find(b => b.building_id === request.building_id)?.address && 
+                        `, ${formatAddress(buildingsList.find(b => b.building_id === request.building_id)?.address)}`}
+                    </Text>
+                  </Flex>
+                </Box>
+              ))
           ) : (
             <Text color="gray.500">Нет заявок, соответствующих фильтрам</Text>
           )}

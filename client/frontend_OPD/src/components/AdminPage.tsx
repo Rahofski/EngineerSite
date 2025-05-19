@@ -87,31 +87,31 @@ export const AdminPage = () => {
             </Box>
             {isPanelOpen && (
               <Box
-                position="fixed"
-                top="0"
-                left="0"
-                right="0"
-                bottom="0"
-                bg="blackAlpha.600"
-                zIndex="overlay"
-                onClick={closePanel}
-              >
-                <Box 
-                  ref={panelRef}
-                  position="absolute"
-                  top="39%"
-                  left="87%"
-                  transform="translate(-50%, -50%)"
-                  bg="white"
-                  p={6}
-                  borderRadius="md"
-                  boxShadow="xl"
-                  width="400px"
-                  onClick={(e) => e.stopPropagation()}
-                >
-                  <AdminPanel onClose={closePanel} />
-                </Box>
-              </Box>
+  position="fixed"
+  top="0"
+  left="0"
+  right="0"
+  bottom="0"
+  bg="blackAlpha.600"
+  zIndex="overlay"
+  onClick={closePanel}
+>
+  <Box 
+    ref={panelRef}
+    position="absolute"
+    top="0"
+    right="0"
+    bg="white"
+    p={6}
+    borderRadius="md"
+    boxShadow="xl"
+    width="400px"
+    overflowY="auto" // Добавляем прокрутку если контент не помещается
+    onClick={(e) => e.stopPropagation()}
+  >
+    <AdminPanel onClose={closePanel} />
+  </Box>
+</Box>
             )}
             <RequestGrid allRequests={allRequests} isLoading={isLoading}/>
           </Box>
