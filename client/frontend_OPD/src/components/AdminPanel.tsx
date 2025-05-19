@@ -11,7 +11,7 @@ interface AdminPanelProps {
 const fields = [
   { id: 1, name: "Водоснабжение" },
   { id: 2, name: "Электроснабжение" },
-  { id: 3, name: "Газоснабжение" },
+  // { id: 3, name: "Газоснабжение" },
   { id: 4, name: "Администрирование" },
   { id: 5, name: "Техника" },
   { id: 6, name: "Другое" },

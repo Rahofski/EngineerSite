@@ -69,9 +69,9 @@ export const CardWithForm = () => {
       console.log("Ошибка при логине:", error);
   
       // В случае ошибки можно оставить редирект на "/request" по умолчанию
-      setTimeout(() => {
-        navigate("/request");
-      }, 1000);
+      // setTimeout(() => {
+      //   navigate("/request");
+      // }, 1000);
     }
   };
 
