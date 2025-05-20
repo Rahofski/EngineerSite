@@ -299,16 +299,16 @@ export const RequestGrid = ({ allRequests, isLoading}: {
         overflow="hidden"
         mb={5}
       >
-        <Flex alignItems={"center"} padding={"5px 50px"} gap={120}>
-          <Text mr={5}>Номер</Text>
-          <Text fontSize="l" width={"200px"} mr={7}>
+        <Flex alignItems={"center"} padding={"5px 50px"}>
+          <Text w={190}>Номер</Text>
+          <Text fontSize="l" width={"280px"}>
             Сфера
           </Text>
-          <Text width={"100px"} mr={7}>
+          <Text width={"200px"}>
             Статус
           </Text>
-          <Text mr={9}>Дата</Text>
-          <Text>Адрес</Text>
+          <Text width={"200px"}>Дата</Text>
+          <Text width={"200px"}>Адрес</Text>
         </Flex>
       </Box>
 
@@ -346,15 +346,15 @@ export const RequestGrid = ({ allRequests, isLoading}: {
                     borderColor: primaryColor
                   }}
                 >
-                  <Flex alignItems={"center"} padding={"5px 50px"} gap={150}>
-                    <Text w={10}>#{request.request_id}</Text>
-                    <Text fontSize="l" fontWeight="bold" width={"200px"}>
+                  <Flex alignItems={"center"} padding={"5px 50px"} >
+                    <Text w={190}>#{request.request_id}</Text>
+                    <Text fontSize="l" fontWeight="bold" width={"280px"}>
                       {FIELD_NAMES[request.field_id]}
                     </Text>
-                    <Text width={"100px"}>
+                    <Text width={"200px"}>
                       {statusText[request.status]}
                     </Text>
-                    <Text w={10}>{formatDate(request.time)}</Text>
+                    <Text w={200}>{formatDate(request.time)}</Text>
                     <Text>
                       {buildingsList.find(b => b.building_id === request.building_id)?.building_name || "Неизвестное здание"}
                       {buildingsList.find(b => b.building_id === request.building_id)?.address && 
