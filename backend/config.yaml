@@ -2,10 +2,10 @@ server:
   host: "localhost"
   port: "8000"
 database:
-  host: "mainline.proxy.rlwy.net"
-  port: "54359"
+  host: "trolley.proxy.rlwy.net"
+  port: "28351"
   user: "postgres"
-  password: "flyHlsuwIZatxbNXnXluezPVWhPUpPgZ"
+  password: "MPgdkeOxEXmeSRURvDPGRhAmlEgMldQn"
   dbname: "railway"
   sslmode: "disable"
 secret: "KABAN"
